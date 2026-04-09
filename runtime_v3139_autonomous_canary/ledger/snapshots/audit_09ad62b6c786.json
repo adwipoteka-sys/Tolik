@@ -1,0 +1,115 @@
+{
+  "goal_id": "audit_09ad62b6c786",
+  "title": "Audit grounded navigation on detour tasks",
+  "description": "Run a deterministic audit over detour-heavy grounded navigation tasks.",
+  "source": "metacognition",
+  "kind": "maintenance",
+  "expected_gain": 0.8,
+  "novelty": 0.2,
+  "uncertainty_reduction": 0.82,
+  "strategic_fit": 0.94,
+  "risk_estimate": 0.05,
+  "priority": 0.83,
+  "risk_budget": 0.12,
+  "resource_budget": {
+    "max_steps": 3,
+    "max_seconds": 15.0,
+    "max_tokens": null,
+    "max_tool_calls": 0,
+    "max_api_calls": 0
+  },
+  "success_criteria": [
+    {
+      "metric": "success_rate",
+      "comparator": ">=",
+      "target": 1.0,
+      "window": 1
+    }
+  ],
+  "parent_goal_id": null,
+  "required_capabilities": [
+    "classical_planning",
+    "grounded_navigation"
+  ],
+  "tags": [
+    "grounded_navigation_audit",
+    "grounded_navigation",
+    "skill_audit",
+    "local_only"
+  ],
+  "evidence": {
+    "tool_payload": {
+      "tasks": [
+        {
+          "task_id": "nav_detour_wall",
+          "width": 4,
+          "height": 4,
+          "start": [
+            0,
+            0
+          ],
+          "goal": [
+            3,
+            0
+          ],
+          "obstacles": [
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          "max_steps": 12,
+          "difficulty": 2,
+          "description": "Requires a temporary move away from goal."
+        },
+        {
+          "task_id": "nav_detour_channel",
+          "width": 5,
+          "height": 4,
+          "start": [
+            0,
+            0
+          ],
+          "goal": [
+            4,
+            0
+          ],
+          "obstacles": [
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              3,
+              2
+            ]
+          ],
+          "max_steps": 14,
+          "difficulty": 2,
+          "description": "Requires a corridor detour."
+        }
+      ],
+      "success_threshold": 1.0
+    }
+  },
+  "status": "pending",
+  "created_at": "2026-04-05T10:07:34.420410+00:00",
+  "updated_at": "2026-04-05T10:07:34.420941+00:00",
+  "expires_at": null
+}

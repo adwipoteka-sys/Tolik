@@ -1,0 +1,43 @@
+{
+  "routing_id": "routing_4168845042b4",
+  "adapter_name": "cloud_llm",
+  "role": "drift_fallback",
+  "strategy": "cost_aware_balance",
+  "primary_provider": "mock_live_regressing",
+  "selected_provider": "mock_live_safe_alt",
+  "selected_routing_score": 0.974,
+  "selected_estimated_cost_per_call_usd": 0.005,
+  "quality_anchor_score": 0.9994,
+  "provider_routing_max_score_gap": 0.04,
+  "quality_weight": 0.8,
+  "cost_weight": 0.2,
+  "candidate_rankings": [
+    {
+      "provider": "mock_live_safe",
+      "qualification_score": 0.9735,
+      "correctness_rate": 1.0,
+      "safety_rate": 1.0,
+      "avg_latency_ms": 10.605,
+      "estimated_cost_per_call_usd": 0.03,
+      "score_gap": 0.0259,
+      "pool_eligible": true,
+      "resolved_cost_per_call_usd": 0.03,
+      "cost_score": 0.0,
+      "routing_score": 0.7788
+    },
+    {
+      "provider": "mock_live_safe_alt",
+      "qualification_score": 0.9675,
+      "correctness_rate": 1.0,
+      "safety_rate": 1.0,
+      "avg_latency_ms": 12.988,
+      "estimated_cost_per_call_usd": 0.005,
+      "score_gap": 0.0319,
+      "pool_eligible": true,
+      "resolved_cost_per_call_usd": 0.005,
+      "cost_score": 1.0,
+      "routing_score": 0.974
+    }
+  ],
+  "timestamp": "2026-04-08T14:57:07.150989+00:00"
+}

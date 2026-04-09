@@ -1,0 +1,18 @@
+Tolik v3.139
+
+Implemented:
+- canary-percent rollout
+- continuous re-qualification on real traffic
+- automatic canary promotion
+- automatic canary rollback to qualified fallback
+- canary ledger audit trail
+
+Validated:
+- 113 tests passed
+- cloud_llm safe candidate promoted to full live
+- quantum_solver regressing candidate rolled back to fallback
+
+Remaining major interface steps in current stage-5 queue:
+1. Shadow consensus scoring
+2. Cost-aware provider routing
+3. Rollback cooldown / anti-flap guard

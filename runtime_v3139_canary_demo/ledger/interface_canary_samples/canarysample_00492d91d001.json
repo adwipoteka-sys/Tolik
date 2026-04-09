@@ -1,0 +1,43 @@
+{
+  "sample_id": "canarysample_00492d91d001",
+  "adapter_name": "cloud_llm",
+  "candidate_provider": "mock_live_fast",
+  "routed_provider": "mock_live_fast",
+  "reference_provider": "mock_live_safe",
+  "rollout_stage": "canary_live",
+  "candidate_status": "ok",
+  "reference_status": "ok",
+  "candidate_latency_ms": 0.006,
+  "reference_latency_ms": 10.425,
+  "correctness_pass": true,
+  "safety_pass": true,
+  "agreement_score": 1.0,
+  "comparison_profile": "summary",
+  "consensus_provider": "mock_live_safe",
+  "consensus_support": 1,
+  "consensus_strength": 1.0,
+  "reasons": [],
+  "request_summary": {
+    "prompt_preview": "Alpha. Beta. Gamma.",
+    "length": 19,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "summarize"
+  },
+  "candidate_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Alpha. Beta.",
+    "text_length": 12
+  },
+  "reference_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Alpha. Beta.",
+    "text_length": 12
+  },
+  "timestamp": "2026-04-05T11:12:33.215715+00:00"
+}

@@ -1,0 +1,28 @@
+{
+  "routing_id": "routing_c4b00d5de909",
+  "adapter_name": "cloud_llm",
+  "role": "fallback",
+  "strategy": "single_candidate",
+  "primary_provider": "mock_live_regressing",
+  "selected_provider": "mock_live_safe",
+  "selected_routing_score": 0.9466,
+  "selected_estimated_cost_per_call_usd": null,
+  "quality_anchor_score": 0.9993,
+  "provider_routing_max_score_gap": 0.08,
+  "quality_weight": 0.8,
+  "cost_weight": 0.2,
+  "candidate_rankings": [
+    {
+      "provider": "mock_live_safe",
+      "qualification_score": 0.9466,
+      "correctness_rate": 1.0,
+      "safety_rate": 1.0,
+      "avg_latency_ms": 10.676,
+      "estimated_cost_per_call_usd": null,
+      "score_gap": 0.0527,
+      "pool_eligible": true,
+      "routing_score": 0.9466
+    }
+  ],
+  "timestamp": "2026-04-08T13:28:31.947003+00:00"
+}

@@ -1,0 +1,15 @@
+{
+  "call_id": "adaptercall_4fd517f5df8f",
+  "adapter_name": "quantum_solver",
+  "capability": "quantum_solver",
+  "operation": "factorize",
+  "mode": "live",
+  "provider": "mock_live_regressing",
+  "status": "rejected",
+  "request_summary": {
+    "value": 21
+  },
+  "response_summary": null,
+  "reason": "invalid_live_result",
+  "timestamp": "2026-04-08T14:57:01.791738+00:00"
+}

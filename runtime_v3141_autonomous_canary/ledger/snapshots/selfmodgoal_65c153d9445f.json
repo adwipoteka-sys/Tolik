@@ -1,0 +1,58 @@
+{
+  "goal_id": "selfmodgoal_65c153d9445f",
+  "title": "Promote graph-search grounded navigation",
+  "description": "Infer a safer internal navigation strategy from repeated detour failures.",
+  "source": "metacognition",
+  "kind": "maintenance",
+  "expected_gain": 0.78,
+  "novelty": 0.28,
+  "uncertainty_reduction": 0.66,
+  "strategic_fit": 0.95,
+  "risk_estimate": 0.07,
+  "priority": 0.8600000000000001,
+  "risk_budget": 0.15,
+  "resource_budget": {
+    "max_steps": 6,
+    "max_seconds": 20.0,
+    "max_tokens": null,
+    "max_tool_calls": 0,
+    "max_api_calls": 0
+  },
+  "success_criteria": [
+    {
+      "metric": "status",
+      "comparator": "==",
+      "target": "finalized",
+      "window": 1
+    }
+  ],
+  "parent_goal_id": null,
+  "required_capabilities": [
+    "classical_planning",
+    "grounded_navigation"
+  ],
+  "tags": [
+    "grounded_navigation_patch",
+    "grounded_navigation",
+    "maintenance",
+    "local_only"
+  ],
+  "evidence": {
+    "self_modification": true,
+    "self_mod_proposal_id": "selfmodprop_a58444c410e5",
+    "self_mod_signature": "grounded_navigation|graph_search_patch",
+    "target_capability": "grounded_navigation",
+    "self_mod_target_component": "agency",
+    "self_mod_parameter_name": "grounded_navigation_strategy",
+    "target_strategy": "graph_search",
+    "proposal_confidence": 0.8,
+    "self_mod_change_id": "selfmod_3e2f25b6f522",
+    "outcome": {
+      "success": true
+    }
+  },
+  "status": "done",
+  "created_at": "2026-04-08T13:28:20.961361+00:00",
+  "updated_at": "2026-04-08T13:28:20.979471+00:00",
+  "expires_at": null
+}

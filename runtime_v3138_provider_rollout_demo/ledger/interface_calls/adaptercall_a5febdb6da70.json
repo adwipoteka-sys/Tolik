@@ -1,0 +1,15 @@
+{
+  "call_id": "adaptercall_a5febdb6da70",
+  "adapter_name": "quantum_solver",
+  "capability": "quantum_solver",
+  "operation": "factorize",
+  "mode": "disabled",
+  "provider": null,
+  "status": "deferred",
+  "request_summary": {
+    "value": 21
+  },
+  "response_summary": null,
+  "reason": "quantum_solver_disabled",
+  "timestamp": "2026-04-05T11:16:41.009837+00:00"
+}

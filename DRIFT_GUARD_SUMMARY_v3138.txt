@@ -1,0 +1,11 @@
+Tolik v3.138 drift-guard summary
+
+Implemented:
+- shadow traffic mirroring
+- rolling drift reports
+- automatic provider demotion
+- qualified fallback promotion
+
+Validated scenarios:
+- cloud provider post-promotion regression -> fallback_promoted(mock_live_safe)
+- quantum provider post-promotion regression -> fallback_promoted(mock_live_precise)

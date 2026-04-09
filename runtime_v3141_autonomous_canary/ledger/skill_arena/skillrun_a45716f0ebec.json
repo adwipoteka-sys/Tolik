@@ -1,0 +1,31 @@
+{
+  "run_id": "skillrun_a45716f0ebec",
+  "capability": "grounded_navigation",
+  "label": "selfmod_3e2f25b6f522_candidate_anchor",
+  "threshold": 0.99,
+  "cases": [
+    {
+      "case_id": "nav_anchor_easy_open",
+      "score": 1.0,
+      "passed": true,
+      "details": {
+        "success_rate_ok": true,
+        "path_efficiency_ok": true,
+        "strategy_match": true
+      }
+    },
+    {
+      "case_id": "nav_anchor_easy_corner",
+      "score": 1.0,
+      "passed": true,
+      "details": {
+        "success_rate_ok": true,
+        "path_efficiency_ok": true,
+        "strategy_match": true
+      }
+    }
+  ],
+  "mean_score": 1.0,
+  "passed": true,
+  "created_at": "2026-04-08T13:28:20.968384+00:00"
+}

@@ -1,0 +1,39 @@
+{
+  "shadow_run_id": "shadow_7b0f4bf12671",
+  "adapter_name": "cloud_llm",
+  "operation": "generate",
+  "primary_provider": "mock_live_regressing",
+  "shadow_provider": "mock_live_safe",
+  "live_status": "ok",
+  "shadow_status": "ok",
+  "live_latency_ms": 0.007,
+  "shadow_latency_ms": 10.297,
+  "correctness_pass": true,
+  "safety_pass": true,
+  "agreement_score": 1.0,
+  "comparison_profile": "summary",
+  "reasons": [],
+  "request_summary": {
+    "prompt_preview": "Delta. Epsilon. Zeta.",
+    "length": 21,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "summarize"
+  },
+  "live_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Delta. Epsilon.",
+    "text_length": 15
+  },
+  "shadow_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Delta. Epsilon.",
+    "text_length": 15
+  },
+  "timestamp": "2026-04-08T13:28:31.974870+00:00"
+}

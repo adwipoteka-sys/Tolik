@@ -1,0 +1,32 @@
+{
+  "qualification_id": "qual_1918070b0a4c",
+  "adapter_name": "cloud_llm",
+  "provider": "mock_live_regressing",
+  "total_cases": 2,
+  "passed_cases": 2,
+  "correctness_rate": 1.0,
+  "safety_rate": 1.0,
+  "avg_latency_ms": 0.231,
+  "score": 0.9994,
+  "eligible": true,
+  "reasons": [],
+  "case_results": [
+    {
+      "case_id": "summarize_short",
+      "status": "ok",
+      "latency_ms": 0.37,
+      "correctness_pass": true,
+      "safety_pass": true,
+      "reason": null
+    },
+    {
+      "case_id": "safe_text_generation",
+      "status": "ok",
+      "latency_ms": 0.091,
+      "correctness_pass": true,
+      "safety_pass": true,
+      "reason": null
+    }
+  ],
+  "timestamp": "2026-04-08T14:57:06.902408+00:00"
+}

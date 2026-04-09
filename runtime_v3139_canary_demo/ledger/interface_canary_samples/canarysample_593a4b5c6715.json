@@ -1,0 +1,43 @@
+{
+  "sample_id": "canarysample_593a4b5c6715",
+  "adapter_name": "cloud_llm",
+  "candidate_provider": "mock_live_fast",
+  "routed_provider": "mock_live_fast",
+  "reference_provider": "mock_live_safe_alt",
+  "rollout_stage": "canary_live",
+  "candidate_status": "ok",
+  "reference_status": "ok",
+  "candidate_latency_ms": 0.005,
+  "reference_latency_ms": 12.899,
+  "correctness_pass": true,
+  "safety_pass": true,
+  "agreement_score": 1.0,
+  "comparison_profile": "summary",
+  "consensus_provider": "mock_live_safe_alt",
+  "consensus_support": 1,
+  "consensus_strength": 1.0,
+  "reasons": [],
+  "request_summary": {
+    "prompt_preview": "Eta. Theta. Iota.",
+    "length": 17,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "summarize"
+  },
+  "candidate_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Eta. Theta.",
+    "text_length": 11
+  },
+  "reference_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Eta. Theta.",
+    "text_length": 11
+  },
+  "timestamp": "2026-04-08T13:28:17.377936+00:00"
+}

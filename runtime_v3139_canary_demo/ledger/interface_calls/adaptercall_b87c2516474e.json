@@ -1,0 +1,29 @@
+{
+  "call_id": "adaptercall_b87c2516474e",
+  "adapter_name": "quantum_solver",
+  "capability": "quantum_solver",
+  "operation": "solve_optimization",
+  "mode": "live",
+  "provider": "mock_live_regressing",
+  "status": "ok",
+  "request_summary": {
+    "problem_keys": [
+      "values"
+    ],
+    "value_count": 3,
+    "value_preview": [
+      5.0,
+      1.0,
+      3.0
+    ]
+  },
+  "response_summary": {
+    "status": "ok",
+    "mode": "live",
+    "provider": "mock_live_precise",
+    "best_value": 1.0,
+    "best_index": 1
+  },
+  "reason": null,
+  "timestamp": "2026-04-05T10:08:01.962163+00:00"
+}

@@ -1,0 +1,18 @@
+{
+  "drift_report_id": "drift_033c8dd8da24",
+  "adapter_name": "cloud_llm",
+  "provider": "mock_live_regressing",
+  "sample_count": 3,
+  "window_size": 3,
+  "correctness_rate": 0.6667,
+  "safety_rate": 1.0,
+  "avg_live_latency_ms": 26.963,
+  "baseline_latency_ms": 0.134,
+  "avg_agreement_score": 0.6667,
+  "shadow_comparisons": 6,
+  "demotion_triggered": true,
+  "reasons": [
+    "correctness_drift:0.667"
+  ],
+  "timestamp": "2026-04-08T13:28:19.339367+00:00"
+}

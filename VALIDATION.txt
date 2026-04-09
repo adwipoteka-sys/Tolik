@@ -1,0 +1,10 @@
+Validated on 2026-04-08
+
+- pytest -q: 123 passed
+- provider_anti_flap_demo.py: passed
+- provider_canary_demo.py: passed
+- provider_shadow_consensus_demo.py: passed
+- provider_shadow_demo.py: passed
+- provider_rollout_demo.py: passed
+- provider_cost_routing_demo.py: passed
+- autonomous_agi.py with canary charter + provider catalog: passed

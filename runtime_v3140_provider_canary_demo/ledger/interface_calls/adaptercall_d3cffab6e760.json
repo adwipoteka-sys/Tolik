@@ -1,0 +1,26 @@
+{
+  "call_id": "adaptercall_d3cffab6e760",
+  "adapter_name": "quantum_solver",
+  "capability": "quantum_solver",
+  "operation": "factorize",
+  "mode": "live",
+  "provider": "mock_live_regressing",
+  "status": "ok",
+  "request_summary": {
+    "value": 21
+  },
+  "response_summary": {
+    "status": "ok",
+    "mode": "live",
+    "provider": "mock_live_regressing",
+    "factors": {
+      "count": 2,
+      "preview": [
+        3,
+        7
+      ]
+    }
+  },
+  "reason": null,
+  "timestamp": "2026-04-05T11:12:56.982098+00:00"
+}

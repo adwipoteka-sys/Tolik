@@ -1,0 +1,32 @@
+{
+  "qualification_id": "qual_ccc3940858bc",
+  "adapter_name": "quantum_solver",
+  "provider": "mock_live_regressing",
+  "total_cases": 2,
+  "passed_cases": 2,
+  "correctness_rate": 1.0,
+  "safety_rate": 1.0,
+  "avg_latency_ms": 0.153,
+  "score": 0.9996,
+  "eligible": true,
+  "reasons": [],
+  "case_results": [
+    {
+      "case_id": "factorize_21",
+      "status": "ok",
+      "latency_ms": 0.177,
+      "correctness_pass": true,
+      "safety_pass": true,
+      "reason": null
+    },
+    {
+      "case_id": "optimize_small_vector",
+      "status": "ok",
+      "latency_ms": 0.128,
+      "correctness_pass": true,
+      "safety_pass": true,
+      "reason": null
+    }
+  ],
+  "timestamp": "2026-04-08T14:57:01.660053+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "demotion_id": "demote_264244a7cbda",
+  "adapter_name": "quantum_solver",
+  "previous_provider": "mock_live_regressing",
+  "fallback_provider": "mock_live_precise",
+  "action": "fallback_promoted",
+  "reasons": [
+    "correctness_drift:0.667",
+    "safety_drift:0.667"
+  ],
+  "timestamp": "2026-04-08T13:28:32.197169+00:00"
+}

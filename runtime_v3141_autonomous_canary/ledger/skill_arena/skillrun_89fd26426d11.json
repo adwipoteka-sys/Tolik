@@ -1,0 +1,31 @@
+{
+  "run_id": "skillrun_89fd26426d11",
+  "capability": "grounded_navigation",
+  "label": "selfmod_3e2f25b6f522_canary",
+  "threshold": 0.99,
+  "cases": [
+    {
+      "case_id": "nav_detour_curriculum",
+      "score": 1.0,
+      "passed": true,
+      "details": {
+        "success_rate_ok": true,
+        "path_efficiency_ok": true,
+        "strategy_match": true
+      }
+    },
+    {
+      "case_id": "nav_easy_regression_guard",
+      "score": 1.0,
+      "passed": true,
+      "details": {
+        "success_rate_ok": true,
+        "path_efficiency_ok": true,
+        "strategy_match": true
+      }
+    }
+  ],
+  "mean_score": 1.0,
+  "passed": true,
+  "created_at": "2026-04-08T13:28:20.974172+00:00"
+}

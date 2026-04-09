@@ -1,0 +1,19 @@
+{
+  "decision_id": "rollout_1ff344a086a7",
+  "adapter_name": "cloud_llm",
+  "provider": "mock_live_fast",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved",
+    "canary_rollout_enabled"
+  ],
+  "qualification_id": "qual_b71fbff736d0",
+  "rollout_stage": "canary",
+  "fallback_provider": "mock_live_safe_alt",
+  "canary_live_fraction": 0.5,
+  "routing_strategy": "cost_aware_balance",
+  "estimated_cost_per_call_usd": 0.08,
+  "fallback_estimated_cost_per_call_usd": 0.005,
+  "timestamp": "2026-04-08T14:57:16.254374+00:00"
+}

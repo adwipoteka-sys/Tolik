@@ -1,0 +1,51 @@
+{
+  "snapshot_id": "dssnap_d48701e1a9eb",
+  "model_family": "response_risk_model",
+  "title": "Autonomous response-risk curriculum snapshot cycle 0",
+  "description": "Validated autonomous curriculum dataset for guarded response-risk self-training.",
+  "example_ids": [
+    "rrtrain_39fe506dcf10",
+    "rrtrain_64b2a4c8f8f8",
+    "rrtrain_bd2ce921db05",
+    "rrtrain_d535cd9faeec",
+    "rrtrain_c7b90bf4bc0d",
+    "rrcase_8f9494a1b23d",
+    "rrcase_2b1ae4074f12",
+    "rrtransfer_d7c8859123a6",
+    "rrtransfer_449dab3731c6",
+    "rrtransfer_cef539a388a7",
+    "rrcase_c9b92d230f07",
+    "rrcase_86ba6c855d10",
+    "rraud_66eeb7b5e8c3",
+    "rraud_667977b84d4e",
+    "rraud_908a32e624bc"
+  ],
+  "status": "approved",
+  "stats": {
+    "example_count": 15,
+    "split_counts": {
+      "train": 8,
+      "anchor": 2,
+      "transfer": 3,
+      "canary": 2
+    },
+    "source_counts": {
+      "seed_curriculum": 5,
+      "anchor_suite": 2,
+      "transfer_suite": 3,
+      "canary_suite": 2,
+      "audit_counterexample": 3
+    },
+    "train_example_count": 8,
+    "positive_train_count": 7,
+    "negative_train_count": 1,
+    "mean_quality": 0.956,
+    "cycle": 0,
+    "audit_accuracy": 0.4,
+    "audit_false_negative_count": 3,
+    "audit_false_positive_count": 0,
+    "dropped_low_quality": 0,
+    "validation_reasons": []
+  },
+  "created_at": "2026-04-08T13:28:33.494528+00:00"
+}

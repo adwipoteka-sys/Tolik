@@ -1,0 +1,30 @@
+{
+  "call_id": "adaptercall_40d94d60bc76",
+  "adapter_name": "cloud_llm",
+  "capability": "cloud_llm",
+  "operation": "generate",
+  "mode": "live",
+  "provider": "mock_live_fast",
+  "status": "ok",
+  "request_summary": {
+    "prompt_preview": "Kappa. Lambda. Mu.",
+    "length": 18,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "summarize",
+    "output_redactions": [],
+    "output_truncated": false
+  },
+  "response_summary": {
+    "status": "ok",
+    "mode": "live",
+    "provider": "mock_live_safe_alt",
+    "text_preview": "Kappa. Lambda.",
+    "text_length": 14
+  },
+  "reason": null,
+  "timestamp": "2026-04-08T13:28:17.391189+00:00"
+}

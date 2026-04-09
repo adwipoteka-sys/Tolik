@@ -1,0 +1,37 @@
+1. Установи зависимости:
+   python3 -m pip install -r requirements.txt
+
+2. Прогони все тесты:
+   python3 -m pytest -q
+
+3. Посмотри новый anti-flap demo:
+   python3 provider_anti_flap_demo.py
+
+4. Проверь canary demo:
+   python3 provider_canary_demo.py
+
+5. При необходимости прогони остальные demo:
+   python3 provider_shadow_consensus_demo.py
+   python3 provider_shadow_demo.py
+   python3 provider_rollout_demo.py
+   python3 provider_cost_routing_demo.py
+
+6. Прогони автономный путь с canary + monitors:
+   python3 autonomous_agi.py \
+     --runtime-dir runtime_v3142_autonomous_canary \
+     --charter configs/operator_charter.canary_rollout.example.json \
+     --provider-catalog configs/provider_catalog.canary_rollout.example.json \
+     --cycles 2
+
+7. Проверь защитные артефакты в ledger:
+   - interface_qualifications/
+   - interface_rollout_decisions/
+   - interface_provider_routing/
+   - interface_canary_samples/
+   - interface_requalification_reports/
+   - interface_canary_decisions/
+   - interface_shadow_runs/
+   - interface_shadow_consensus/
+   - interface_drift_reports/
+   - interface_demotion_decisions/
+   - interface_rollout_protections/

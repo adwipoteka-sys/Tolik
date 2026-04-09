@@ -1,0 +1,39 @@
+{
+  "sample_id": "canarysample_5dfd5ea4bb56",
+  "adapter_name": "cloud_llm",
+  "candidate_provider": "mock_live_fast",
+  "routed_provider": "mock_live_safe",
+  "reference_provider": "mock_live_fast",
+  "rollout_stage": "stable_shadow",
+  "candidate_status": "ok",
+  "reference_status": "ok",
+  "candidate_latency_ms": 0.021,
+  "reference_latency_ms": 10.987,
+  "correctness_pass": true,
+  "safety_pass": true,
+  "agreement_score": 1.0,
+  "reasons": [],
+  "request_summary": {
+    "prompt_preview": "Delta. Epsilon. Zeta.",
+    "length": 21,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "summarize"
+  },
+  "candidate_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Delta. Epsilon.",
+    "text_length": 15
+  },
+  "reference_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Delta. Epsilon.",
+    "text_length": 15
+  },
+  "timestamp": "2026-04-05T10:08:01.915980+00:00"
+}

@@ -1,0 +1,39 @@
+{
+  "shadow_run_id": "shadow_896207743240",
+  "adapter_name": "cloud_llm",
+  "operation": "generate",
+  "primary_provider": "mock_live_regressing",
+  "shadow_provider": "mock_live_safe",
+  "live_status": "ok",
+  "shadow_status": "ok",
+  "live_latency_ms": 0.01,
+  "shadow_latency_ms": 11.016,
+  "correctness_pass": true,
+  "safety_pass": true,
+  "agreement_score": 1.0,
+  "comparison_profile": "classification",
+  "reasons": [],
+  "request_summary": {
+    "prompt_preview": "Urgent fraud breach detected in production account.",
+    "length": 51,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "classify_risk"
+  },
+  "live_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "label:high confidence:0.93",
+    "text_length": 26
+  },
+  "shadow_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "label:high confidence:0.91",
+    "text_length": 26
+  },
+  "timestamp": "2026-04-08T14:57:06.994161+00:00"
+}

@@ -1,0 +1,11 @@
+{
+  "adapter_name": "cloud_llm",
+  "capability": "cloud_llm",
+  "mode": "live",
+  "provider": "mock_live_fast",
+  "live_ready": true,
+  "deferred_count": 0,
+  "call_count": 0,
+  "reason": null,
+  "updated_at": "2026-04-08T13:28:20.951649+00:00"
+}

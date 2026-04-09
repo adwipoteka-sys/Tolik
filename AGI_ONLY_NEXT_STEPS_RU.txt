@@ -1,0 +1,7 @@
+Обязательных следующих шагов по текущей дорожной карте больше нет.
+
+Что дальше можно делать только как optional hardening:
+- richer live-provider benchmarking
+- multi-provider budget arbitration
+- operator dashboards / observability
+- stronger sandbox + execution governance

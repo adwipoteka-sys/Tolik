@@ -1,0 +1,85 @@
+{
+  "cloud_llm": {
+    "candidates": [
+      {
+        "mode": "live",
+        "provider": "mock_live_fast",
+        "policy": {
+          "allow_live_calls": true,
+          "max_prompt_chars": 4000,
+          "max_response_chars": 4000,
+          "redact_emails": true,
+          "blocked_terms": ["malware"],
+          "reject_blocked_terms": true,
+          "truncate_inputs": true,
+          "truncate_outputs": true
+        }
+      },
+      {
+        "mode": "live",
+        "provider": "mock_live_safe",
+        "policy": {
+          "allow_live_calls": true,
+          "max_prompt_chars": 4000,
+          "max_response_chars": 4000,
+          "redact_emails": true,
+          "blocked_terms": ["malware"],
+          "reject_blocked_terms": true,
+          "truncate_inputs": true,
+          "truncate_outputs": true
+        }
+      },
+      {
+        "mode": "live",
+        "provider": "mock_live_risky",
+        "policy": {
+          "allow_live_calls": true,
+          "max_prompt_chars": 4000,
+          "max_response_chars": 4000,
+          "redact_emails": true,
+          "blocked_terms": ["malware"],
+          "reject_blocked_terms": true,
+          "truncate_inputs": true,
+          "truncate_outputs": true
+        }
+      }
+    ]
+  },
+  "quantum_solver": {
+    "candidates": [
+      {
+        "mode": "live",
+        "provider": "mock_live_precise",
+        "policy": {
+          "allow_live_calls": true,
+          "max_problem_size": 256,
+          "max_numeric_value": 1000000,
+          "truncate_inputs": true,
+          "truncate_outputs": true
+        }
+      },
+      {
+        "mode": "live",
+        "provider": "mock_live_slow",
+        "policy": {
+          "allow_live_calls": true,
+          "max_problem_size": 256,
+          "max_numeric_value": 1000000,
+          "truncate_inputs": true,
+          "truncate_outputs": true
+        }
+      },
+      {
+        "mode": "live",
+        "provider": "mock_live_noisy",
+        "policy": {
+          "allow_live_calls": true,
+          "max_problem_size": 256,
+          "max_numeric_value": 1000000,
+          "truncate_inputs": true,
+          "truncate_outputs": true
+        }
+      }
+    ]
+  }
+}

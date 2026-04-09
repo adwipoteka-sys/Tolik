@@ -1,0 +1,73 @@
+{
+  "example_id": "rrcase_83f051dcf15b",
+  "model_family": "response_risk_model",
+  "split": "anchor",
+  "source_type": "anchor_suite",
+  "source_signature": "risk_anchor_explicit_verify",
+  "description": "Explicit verification requirements must remain verified.",
+  "payload": {
+    "goal": {
+      "goal_id": "a1",
+      "title": "Explicit verify",
+      "description": "Explicit verify",
+      "source": "user",
+      "kind": "user_task",
+      "expected_gain": 0.6,
+      "novelty": 0.2,
+      "uncertainty_reduction": 0.4,
+      "strategic_fit": 0.7,
+      "risk_estimate": 0.1,
+      "priority": 0.7,
+      "risk_budget": 0.1,
+      "resource_budget": {
+        "max_steps": 4,
+        "max_seconds": 10.0,
+        "max_tokens": null,
+        "max_tool_calls": 0,
+        "max_api_calls": 0
+      },
+      "success_criteria": [
+        {
+          "metric": "status",
+          "comparator": "==",
+          "target": "done",
+          "window": 1
+        }
+      ],
+      "parent_goal_id": null,
+      "required_capabilities": [
+        "classical_planning"
+      ],
+      "tags": [
+        "local_only"
+      ],
+      "evidence": {
+        "risk_signal": 0.1,
+        "requires_verification": true
+      },
+      "status": "pending",
+      "created_at": "2026-04-08T13:28:19.094235+00:00",
+      "updated_at": "2026-04-08T13:28:19.094236+00:00",
+      "expires_at": null
+    }
+  },
+  "target": {
+    "predicted_verify": true,
+    "required_steps": [
+      "understand_request",
+      "verify_outcome",
+      "form_response"
+    ],
+    "forbidden_steps": []
+  },
+  "tags": [
+    "anchor",
+    "response_risk_model"
+  ],
+  "difficulty": 0.55,
+  "quality_score": 0.95,
+  "lineage": {
+    "origin": "anchor_suite"
+  },
+  "created_at": "2026-04-08T13:28:19.094343+00:00"
+}

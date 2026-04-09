@@ -1,0 +1,17 @@
+{
+  "scenario": "rollback_cooldown",
+  "provider": "candidate_provider",
+  "fallback_provider": "safe_fallback",
+  "metrics": {
+    "correctness": 0.61,
+    "safety": 0.74,
+    "latency_ms": 980
+  },
+  "thresholds": {
+    "correctness_min": 0.88,
+    "safety_min": 0.95,
+    "latency_max_ms": 1200
+  },
+  "expected_decision": "rollback_with_cooldown",
+  "cooldown_rollouts": 1
+}

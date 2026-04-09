@@ -1,0 +1,15 @@
+{
+  "decision_id": "rollout_7075ba0a1fa6",
+  "adapter_name": "quantum_solver",
+  "provider": "mock_live_precise",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved"
+  ],
+  "qualification_id": "qual_cc287279d34b",
+  "rollout_stage": "full_live",
+  "fallback_provider": null,
+  "canary_live_fraction": null,
+  "timestamp": "2026-04-05T11:16:41.180598+00:00"
+}

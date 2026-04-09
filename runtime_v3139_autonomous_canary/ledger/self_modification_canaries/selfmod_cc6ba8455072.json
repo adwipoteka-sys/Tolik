@@ -1,0 +1,41 @@
+{
+  "change_id": "selfmod_cc6ba8455072",
+  "capability": "grounded_navigation",
+  "canary_run": {
+    "run_id": "skillrun_9ff68e3e5ebc",
+    "capability": "grounded_navigation",
+    "label": "selfmod_cc6ba8455072_canary",
+    "threshold": 0.99,
+    "cases": [
+      {
+        "case_id": "nav_detour_curriculum",
+        "score": 1.0,
+        "passed": true,
+        "details": {
+          "success_rate_ok": true,
+          "path_efficiency_ok": true,
+          "strategy_match": true
+        }
+      },
+      {
+        "case_id": "nav_easy_regression_guard",
+        "score": 1.0,
+        "passed": true,
+        "details": {
+          "success_rate_ok": true,
+          "path_efficiency_ok": true,
+          "strategy_match": true
+        }
+      }
+    ],
+    "mean_score": 1.0,
+    "passed": true,
+    "created_at": "2026-04-05T10:07:34.413431+00:00"
+  },
+  "passed": true,
+  "rolled_back": false,
+  "active_before": "greedy",
+  "restored_value": "graph_search",
+  "active_value_after": "graph_search",
+  "created_at": "2026-04-05T10:07:34.413769+00:00"
+}

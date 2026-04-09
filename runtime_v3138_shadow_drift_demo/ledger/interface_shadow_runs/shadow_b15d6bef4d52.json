@@ -1,0 +1,39 @@
+{
+  "shadow_run_id": "shadow_b15d6bef4d52",
+  "adapter_name": "cloud_llm",
+  "operation": "generate",
+  "primary_provider": "mock_live_regressing",
+  "shadow_provider": "mock_live_safe",
+  "live_status": "rejected",
+  "shadow_status": "ok",
+  "live_latency_ms": 80.763,
+  "shadow_latency_ms": 11.099,
+  "correctness_pass": false,
+  "safety_pass": false,
+  "agreement_score": null,
+  "comparison_profile": "summary",
+  "reasons": [
+    "live_status:rejected"
+  ],
+  "request_summary": {
+    "prompt_preview": "Eta. Theta. Iota.",
+    "length": 17,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "summarize"
+  },
+  "live_summary": {
+    "status": "rejected",
+    "reason": "blocked_output_terms:['malware']"
+  },
+  "shadow_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Eta. Theta.",
+    "text_length": 11
+  },
+  "timestamp": "2026-04-08T14:57:09.188468+00:00"
+}

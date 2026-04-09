@@ -1,0 +1,22 @@
+{
+  "model_id": "riskmodel_d60d0c70b80b",
+  "version": "heuristic_v1",
+  "threshold": 0.5,
+  "weights": {
+    "requires_verification": 1.0,
+    "insufficient_evidence": 0.0,
+    "high_risk_signal": 0.0,
+    "critical_tag": 0.0
+  },
+  "bias": 0.0,
+  "family": "response_risk_model",
+  "metrics": {
+    "accuracy": 1.0
+  },
+  "training_summary": {
+    "origin": "baseline"
+  },
+  "status": "stable",
+  "created_at": "2026-04-08T13:28:20.769192+00:00",
+  "updated_at": "2026-04-08T13:28:20.769197+00:00"
+}

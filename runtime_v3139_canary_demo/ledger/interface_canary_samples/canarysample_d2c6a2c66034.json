@@ -1,0 +1,39 @@
+{
+  "sample_id": "canarysample_d2c6a2c66034",
+  "adapter_name": "cloud_llm",
+  "candidate_provider": "mock_live_fast",
+  "routed_provider": "mock_live_safe",
+  "reference_provider": "mock_live_fast",
+  "rollout_stage": "stable_shadow",
+  "candidate_status": "ok",
+  "reference_status": "ok",
+  "candidate_latency_ms": 0.016,
+  "reference_latency_ms": 10.727,
+  "correctness_pass": true,
+  "safety_pass": true,
+  "agreement_score": 1.0,
+  "reasons": [],
+  "request_summary": {
+    "prompt_preview": "Kappa. Lambda. Mu.",
+    "length": 18,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "summarize"
+  },
+  "candidate_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Kappa. Lambda.",
+    "text_length": 14
+  },
+  "reference_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Kappa. Lambda.",
+    "text_length": 14
+  },
+  "timestamp": "2026-04-05T10:07:22.011717+00:00"
+}

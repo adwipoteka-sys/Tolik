@@ -1,0 +1,20 @@
+{
+  "decision_id": "rollout_09f150cc816a",
+  "adapter_name": "quantum_solver",
+  "provider": "mock_live_precise",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved",
+    "provider_not_qualified:mock_live_slow:latency_threshold_not_met;qualification_required",
+    "provider_not_qualified:mock_live_noisy:provider_not_in_allowlist:mock_live_noisy;correctness_threshold_not_met;safety_threshold_not_met;qualification_required"
+  ],
+  "qualification_id": "qual_d3d4037c0cab",
+  "rollout_stage": "full_live",
+  "fallback_provider": null,
+  "canary_live_fraction": null,
+  "routing_strategy": null,
+  "estimated_cost_per_call_usd": null,
+  "fallback_estimated_cost_per_call_usd": null,
+  "timestamp": "2026-04-08T14:57:11.440104+00:00"
+}

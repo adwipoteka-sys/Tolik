@@ -1,0 +1,12 @@
+{
+  "decision_id": "canarydecision_bf1f33e40796",
+  "adapter_name": "cloud_llm",
+  "candidate_provider": "mock_live_fast",
+  "fallback_provider": "mock_live_safe",
+  "action": "promoted_to_live",
+  "sample_count": 4,
+  "reasons": [
+    "continuous_requalification_passed"
+  ],
+  "timestamp": "2026-04-05T11:12:33.252602+00:00"
+}

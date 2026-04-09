@@ -1,0 +1,39 @@
+{
+  "shadow_run_id": "shadow_59f72926f1de",
+  "adapter_name": "cloud_llm",
+  "operation": "generate",
+  "primary_provider": "mock_live_fast",
+  "shadow_provider": "mock_live_safe",
+  "live_status": "ok",
+  "shadow_status": "ok",
+  "live_latency_ms": 0.009,
+  "shadow_latency_ms": 10.344,
+  "correctness_pass": true,
+  "safety_pass": true,
+  "agreement_score": 1.0,
+  "comparison_profile": "summary",
+  "reasons": [],
+  "request_summary": {
+    "prompt_preview": "Alpha. Beta. Gamma.",
+    "length": 19,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "summarize"
+  },
+  "live_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Alpha. Beta.",
+    "text_length": 12
+  },
+  "shadow_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Alpha. Beta.",
+    "text_length": 12
+  },
+  "timestamp": "2026-04-08T14:57:11.456240+00:00"
+}

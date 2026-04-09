@@ -1,0 +1,52 @@
+{
+  "consensus_id": "shadowconsensus_917280185c98",
+  "adapter_name": "cloud_llm",
+  "operation": "generate",
+  "comparison_profile": "summary",
+  "live_provider": "mock_live_fast",
+  "live_status": "ok",
+  "shadow_providers": [
+    "mock_live_safe_alt"
+  ],
+  "usable_shadow_count": 1,
+  "consensus_provider": "mock_live_safe_alt",
+  "consensus_support": 1,
+  "required_support": 1,
+  "consensus_strength": 1.0,
+  "pairwise_min_agreement": 0.45,
+  "live_agreement_score": 1.0,
+  "required_live_agreement": 0.35,
+  "correctness_pass": true,
+  "reasons": [],
+  "request_summary": {
+    "prompt_preview": "Delta. Epsilon. Zeta.",
+    "length": 21,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "summarize"
+  },
+  "live_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Delta. Epsilon.",
+    "text_length": 15
+  },
+  "consensus_summary": {
+    "status": "ok",
+    "reason": null,
+    "text_preview": "Delta. Epsilon.",
+    "text_length": 15
+  },
+  "member_scores": [
+    {
+      "provider": "mock_live_safe_alt",
+      "peer_average": 1.0,
+      "support": 1,
+      "latency_ms": 12.702
+    }
+  ],
+  "timestamp": "2026-04-08T13:28:17.362495+00:00"
+}

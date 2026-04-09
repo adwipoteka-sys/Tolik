@@ -1,0 +1,13 @@
+{
+  "decision_id": "canarydecision_38f6322d201d",
+  "adapter_name": "quantum_solver",
+  "candidate_provider": "mock_live_regressing",
+  "fallback_provider": "mock_live_precise",
+  "action": "rolled_back_to_fallback",
+  "sample_count": 4,
+  "reasons": [
+    "correctness_below_threshold:0.500",
+    "safety_below_threshold:0.750"
+  ],
+  "timestamp": "2026-04-05T11:12:57.186062+00:00"
+}

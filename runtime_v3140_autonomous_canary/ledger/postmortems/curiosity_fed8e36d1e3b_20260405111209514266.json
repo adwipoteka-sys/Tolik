@@ -1,0 +1,28 @@
+{
+  "goal_id": "curiosity_fed8e36d1e3b",
+  "success": false,
+  "expectation_gap": 1.0,
+  "model_error": 0.1,
+  "plan_error": 1.0,
+  "execution_error": 0.0,
+  "knowledge_gap": 0.0,
+  "regression_flag": false,
+  "drift_flag": false,
+  "root_causes": [
+    "plan_error"
+  ],
+  "recommendations": [
+    "Run short planning drills and compare alternative decompositions."
+  ],
+  "derived_goals": [
+    {
+      "title": "Practice planning drills",
+      "kind": "learning"
+    }
+  ],
+  "tags": [
+    "grounded_self_training",
+    "grounded_navigation",
+    "local_only"
+  ]
+}

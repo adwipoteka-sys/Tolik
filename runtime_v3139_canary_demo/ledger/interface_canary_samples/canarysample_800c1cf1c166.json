@@ -1,0 +1,40 @@
+{
+  "sample_id": "canarysample_800c1cf1c166",
+  "adapter_name": "quantum_solver",
+  "candidate_provider": "mock_live_regressing",
+  "routed_provider": "mock_live_precise",
+  "reference_provider": "mock_live_regressing",
+  "rollout_stage": "stable_shadow",
+  "candidate_status": "ok",
+  "reference_status": "ok",
+  "candidate_latency_ms": 0.007,
+  "reference_latency_ms": 8.9,
+  "correctness_pass": true,
+  "safety_pass": true,
+  "agreement_score": 1.0,
+  "reasons": [],
+  "request_summary": {
+    "problem_keys": [
+      "values"
+    ],
+    "value_count": 3,
+    "value_preview": [
+      5.0,
+      1.0,
+      3.0
+    ]
+  },
+  "candidate_summary": {
+    "status": "ok",
+    "reason": null,
+    "best_value": 1.0,
+    "best_index": 1
+  },
+  "reference_summary": {
+    "status": "ok",
+    "reason": null,
+    "best_value": 1.0,
+    "best_index": 1
+  },
+  "timestamp": "2026-04-05T10:07:22.034298+00:00"
+}

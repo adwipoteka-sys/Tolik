@@ -1,0 +1,65 @@
+{
+  "example_id": "rraud_f4a7c68736a8",
+  "model_family": "response_risk_model",
+  "split": "train",
+  "source_type": "audit_counterexample",
+  "source_signature": "audit:riskmodel_96f8badb7e51:2",
+  "description": "Audit high risk",
+  "payload": {
+    "goal_id": "audit_2",
+    "title": "High risk",
+    "description": "High risk",
+    "source": "user",
+    "kind": "user_task",
+    "expected_gain": 0.6,
+    "novelty": 0.2,
+    "uncertainty_reduction": 0.4,
+    "strategic_fit": 0.7,
+    "risk_estimate": 0.9,
+    "priority": 0.7,
+    "risk_budget": 0.1,
+    "resource_budget": {
+      "max_steps": 4,
+      "max_seconds": 10.0,
+      "max_tokens": null,
+      "max_tool_calls": 0,
+      "max_api_calls": 0
+    },
+    "success_criteria": [
+      {
+        "metric": "status",
+        "comparator": "==",
+        "target": "done",
+        "window": 1
+      }
+    ],
+    "parent_goal_id": null,
+    "required_capabilities": [
+      "classical_planning"
+    ],
+    "tags": [
+      "local_only"
+    ],
+    "evidence": {
+      "risk_signal": 0.9
+    },
+    "status": "pending",
+    "created_at": "2026-04-05T10:07:34.289697+00:00",
+    "updated_at": "2026-04-05T10:07:34.289698+00:00",
+    "expires_at": null
+  },
+  "target": {
+    "label": true
+  },
+  "tags": [
+    "audit_counterexample",
+    "response_risk_model"
+  ],
+  "difficulty": 0.72,
+  "quality_score": 0.93,
+  "lineage": {
+    "model_id": "riskmodel_96f8badb7e51",
+    "prediction": false
+  },
+  "created_at": "2026-04-05T10:07:34.340131+00:00"
+}

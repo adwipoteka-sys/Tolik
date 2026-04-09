@@ -1,0 +1,22 @@
+{
+  "protection_id": "protect_694ab620215c",
+  "adapter_name": "quantum_solver",
+  "affected_provider": "mock_live_regressing",
+  "fallback_provider": "mock_live_precise",
+  "trigger_type": "canary_rollback",
+  "rollout_index": 3,
+  "cooldown_rollouts": 1,
+  "cooldown_until_rollout_index": 4,
+  "provider_recent_failure_count": 2,
+  "anti_flap_window_rollouts": 4,
+  "anti_flap_repeat_failures": 2,
+  "anti_flap_active": true,
+  "anti_flap_until_rollout_index": 5,
+  "reasons": [
+    "correctness_below_threshold:0.500",
+    "safety_below_threshold:0.750",
+    "cooldown_until_rollout:4",
+    "anti_flap_until_rollout:5"
+  ],
+  "timestamp": "2026-04-08T14:57:02.216657+00:00"
+}

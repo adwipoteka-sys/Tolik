@@ -1,0 +1,18 @@
+{
+  "decision_id": "rollout_1b331d66024a",
+  "adapter_name": "quantum_solver",
+  "provider": "mock_live_precise",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved"
+  ],
+  "qualification_id": "qual_1bcde8545776",
+  "rollout_stage": "full_live",
+  "fallback_provider": null,
+  "canary_live_fraction": null,
+  "routing_strategy": null,
+  "estimated_cost_per_call_usd": 0.04,
+  "fallback_estimated_cost_per_call_usd": null,
+  "timestamp": "2026-04-08T13:28:19.173192+00:00"
+}

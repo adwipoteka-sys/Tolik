@@ -1,0 +1,33 @@
+{
+  "run_id": "transfer_a299caf0f46a",
+  "capability": "grounded_navigation",
+  "label": "selfmod_8d0e49327dbf_candidate_transfer",
+  "threshold": 0.99,
+  "cases": [
+    {
+      "case_id": "nav_transfer_bridge",
+      "score": 1.0,
+      "passed": true,
+      "details": {
+        "success_rate_ok": true,
+        "path_efficiency_ok": true,
+        "strategy_match": true,
+        "task_coverage_ok": true
+      }
+    },
+    {
+      "case_id": "nav_transfer_double_wall",
+      "score": 1.0,
+      "passed": true,
+      "details": {
+        "success_rate_ok": true,
+        "path_efficiency_ok": true,
+        "strategy_match": true,
+        "task_coverage_ok": true
+      }
+    }
+  ],
+  "mean_score": 1.0,
+  "passed": true,
+  "created_at": "2026-04-08T14:57:16.290877+00:00"
+}

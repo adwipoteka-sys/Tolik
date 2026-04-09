@@ -1,0 +1,18 @@
+{
+  "report_id": "requal_260c76fb5da6",
+  "adapter_name": "cloud_llm",
+  "candidate_provider": "mock_live_fast",
+  "fallback_provider": "mock_live_safe",
+  "window_size": 6,
+  "sample_count": 4,
+  "live_canary_count": 2,
+  "shadow_only_count": 2,
+  "correctness_rate": 1.0,
+  "safety_rate": 1.0,
+  "avg_candidate_latency_ms": 0.009,
+  "baseline_latency_ms": 0.122,
+  "avg_agreement_score": 1.0,
+  "eligible": true,
+  "reasons": [],
+  "timestamp": "2026-04-05T11:12:33.252420+00:00"
+}

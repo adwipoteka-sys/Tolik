@@ -1,0 +1,28 @@
+{
+  "routing_id": "routing_3f565e467a29",
+  "adapter_name": "quantum_solver",
+  "role": "fallback",
+  "strategy": "single_candidate",
+  "primary_provider": "mock_live_regressing",
+  "selected_provider": "mock_live_precise",
+  "selected_routing_score": 0.9787,
+  "selected_estimated_cost_per_call_usd": null,
+  "quality_anchor_score": 0.9996,
+  "provider_routing_max_score_gap": 0.04,
+  "quality_weight": 0.8,
+  "cost_weight": 0.2,
+  "candidate_rankings": [
+    {
+      "provider": "mock_live_precise",
+      "qualification_score": 0.9787,
+      "correctness_rate": 1.0,
+      "safety_rate": 1.0,
+      "avg_latency_ms": 8.505,
+      "estimated_cost_per_call_usd": null,
+      "score_gap": 0.0209,
+      "pool_eligible": true,
+      "routing_score": 0.9787
+    }
+  ],
+  "timestamp": "2026-04-08T14:57:01.681845+00:00"
+}

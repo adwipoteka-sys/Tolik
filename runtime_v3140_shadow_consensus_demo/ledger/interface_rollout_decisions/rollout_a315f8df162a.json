@@ -1,0 +1,15 @@
+{
+  "decision_id": "rollout_a315f8df162a",
+  "adapter_name": "cloud_llm",
+  "provider": "mock_live_regressing",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved"
+  ],
+  "qualification_id": "qual_b5a2a7293fa5",
+  "rollout_stage": "full_live",
+  "fallback_provider": null,
+  "canary_live_fraction": null,
+  "timestamp": "2026-04-05T11:12:34.896605+00:00"
+}

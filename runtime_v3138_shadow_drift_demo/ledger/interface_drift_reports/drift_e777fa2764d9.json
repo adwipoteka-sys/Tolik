@@ -1,0 +1,16 @@
+{
+  "drift_report_id": "drift_e777fa2764d9",
+  "adapter_name": "quantum_solver",
+  "provider": "mock_live_regressing",
+  "sample_count": 1,
+  "window_size": 3,
+  "correctness_rate": 1.0,
+  "safety_rate": 1.0,
+  "avg_live_latency_ms": 0.007,
+  "baseline_latency_ms": 0.139,
+  "avg_agreement_score": 1.0,
+  "shadow_comparisons": 1,
+  "demotion_triggered": false,
+  "reasons": [],
+  "timestamp": "2026-04-08T13:28:32.093741+00:00"
+}

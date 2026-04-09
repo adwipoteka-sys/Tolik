@@ -1,0 +1,30 @@
+{
+  "call_id": "adaptercall_9847d0c86845",
+  "adapter_name": "cloud_llm",
+  "capability": "cloud_llm",
+  "operation": "generate",
+  "mode": "live",
+  "provider": "mock_live_fast",
+  "status": "ok",
+  "request_summary": {
+    "prompt_preview": "Alpha. Beta. Gamma.",
+    "length": 19,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "summarize",
+    "output_redactions": [],
+    "output_truncated": false
+  },
+  "response_summary": {
+    "status": "ok",
+    "mode": "live",
+    "provider": "mock_live_fast",
+    "text_preview": "Alpha. Beta.",
+    "text_length": 12
+  },
+  "reason": null,
+  "timestamp": "2026-04-08T13:28:17.332131+00:00"
+}

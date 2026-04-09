@@ -1,0 +1,18 @@
+{
+  "report_id": "requal_0b52b12a149b",
+  "adapter_name": "quantum_solver",
+  "candidate_provider": "mock_live_regressing",
+  "fallback_provider": "mock_live_precise",
+  "window_size": 6,
+  "sample_count": 1,
+  "live_canary_count": 1,
+  "shadow_only_count": 0,
+  "correctness_rate": 1.0,
+  "safety_rate": 1.0,
+  "avg_candidate_latency_ms": 0.012,
+  "baseline_latency_ms": 0.104,
+  "avg_agreement_score": 1.0,
+  "eligible": false,
+  "reasons": [],
+  "timestamp": "2026-04-08T14:57:04.589625+00:00"
+}

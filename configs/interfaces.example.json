@@ -1,0 +1,26 @@
+{
+  "cloud_llm": {
+    "mode": "stub",
+    "provider": null,
+    "policy": {
+      "allow_live_calls": false,
+      "max_prompt_chars": 4000,
+      "max_response_chars": 4000,
+      "blocked_terms": [],
+      "reject_blocked_terms": true,
+      "truncate_inputs": true,
+      "truncate_outputs": true
+    }
+  },
+  "quantum_solver": {
+    "mode": "stub",
+    "provider": null,
+    "policy": {
+      "allow_live_calls": false,
+      "max_problem_size": 256,
+      "max_numeric_value": 1000000,
+      "truncate_inputs": true,
+      "truncate_outputs": true
+    }
+  }
+}

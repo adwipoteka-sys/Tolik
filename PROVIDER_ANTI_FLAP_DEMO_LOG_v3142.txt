@@ -1,0 +1,420 @@
+Tolik v3.142 — rollback cooldown + anti-flap demo
+Runtime ledger: /mnt/data/Tolik_work_v3141/Tolik_v3_141_cost_aware_provider_routing/runtime_v3142_anti_flap_demo/ledger
+
+Initial rollout decision:
+{
+  "decision_id": "rollout_04a4faecd62b",
+  "adapter_name": "quantum_solver",
+  "provider": "mock_live_regressing",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved",
+    "canary_rollout_enabled"
+  ],
+  "qualification_id": "qual_ccc3940858bc",
+  "rollout_stage": "canary",
+  "fallback_provider": "mock_live_precise",
+  "canary_live_fraction": 0.5,
+  "routing_strategy": "single_candidate",
+  "estimated_cost_per_call_usd": null,
+  "fallback_estimated_cost_per_call_usd": null,
+  "timestamp": "2026-04-08T14:57:01.682419+00:00"
+}
+
+Triggering first canary rollback...
+{
+  "routed_provider": "mock_live_precise",
+  "routed_stage": "stable_live",
+  "sample": {
+    "sample_id": "canarysample_79cf9d7168a9",
+    "adapter_name": "quantum_solver",
+    "candidate_provider": "mock_live_regressing",
+    "routed_provider": "mock_live_precise",
+    "reference_provider": "mock_live_precise",
+    "rollout_stage": "stable_shadow",
+    "candidate_status": "ok",
+    "reference_status": "ok",
+    "candidate_latency_ms": 80.849,
+    "reference_latency_ms": 8.629,
+    "correctness_pass": false,
+    "safety_pass": true,
+    "agreement_score": 0.0,
+    "comparison_profile": "quantum",
+    "consensus_provider": "mock_live_precise",
+    "consensus_support": 1,
+    "consensus_strength": 1.0,
+    "reasons": [
+      "consensus_disagreement:0.000<0.990"
+    ],
+    "request_summary": {
+      "problem_keys": [
+        "values"
+      ],
+      "value_count": 3,
+      "value_preview": [
+        5.0,
+        1.0,
+        3.0
+      ]
+    },
+    "candidate_summary": {
+      "status": "ok",
+      "reason": null,
+      "best_value": 5.0,
+      "best_index": 0
+    },
+    "reference_summary": {
+      "status": "ok",
+      "reason": null,
+      "best_value": 1.0,
+      "best_index": 1
+    },
+    "timestamp": "2026-04-08T14:57:01.897317+00:00"
+  },
+  "shadow_consensus": {
+    "consensus_id": "shadowconsensus_bca0f6ea43bc",
+    "adapter_name": "quantum_solver",
+    "operation": "solve_optimization",
+    "comparison_profile": "quantum",
+    "live_provider": "mock_live_regressing",
+    "live_status": "ok",
+    "shadow_providers": [
+      "mock_live_precise"
+    ],
+    "usable_shadow_count": 1,
+    "consensus_provider": "mock_live_precise",
+    "consensus_support": 1,
+    "required_support": 1,
+    "consensus_strength": 1.0,
+    "pairwise_min_agreement": 0.45,
+    "live_agreement_score": 0.0,
+    "required_live_agreement": 0.99,
+    "correctness_pass": false,
+    "reasons": [
+      "consensus_disagreement:0.000<0.990"
+    ],
+    "request_summary": {
+      "problem_keys": [
+        "values"
+      ],
+      "value_count": 3,
+      "value_preview": [
+        5.0,
+        1.0,
+        3.0
+      ]
+    },
+    "live_summary": {
+      "status": "ok",
+      "reason": null,
+      "best_value": 5.0,
+      "best_index": 0
+    },
+    "consensus_summary": {
+      "status": "ok",
+      "reason": null,
+      "best_value": 1.0,
+      "best_index": 1
+    },
+    "member_scores": [
+      {
+        "provider": "mock_live_precise",
+        "peer_average": 1.0,
+        "support": 1,
+        "latency_ms": 8.629
+      }
+    ],
+    "timestamp": "2026-04-08T14:57:01.896409+00:00"
+  },
+  "requalification_report": {
+    "report_id": "requal_6de6551462fe",
+    "adapter_name": "quantum_solver",
+    "candidate_provider": "mock_live_regressing",
+    "fallback_provider": "mock_live_precise",
+    "window_size": 6,
+    "sample_count": 4,
+    "live_canary_count": 2,
+    "shadow_only_count": 2,
+    "correctness_rate": 0.5,
+    "safety_rate": 0.75,
+    "avg_candidate_latency_ms": 40.305,
+    "baseline_latency_ms": 0.153,
+    "avg_agreement_score": 0.6667,
+    "eligible": false,
+    "reasons": [
+      "correctness_below_threshold:0.500",
+      "safety_below_threshold:0.750"
+    ],
+    "timestamp": "2026-04-08T14:57:01.897996+00:00"
+  },
+  "decision": {
+    "decision_id": "canarydecision_0a103f31460c",
+    "adapter_name": "quantum_solver",
+    "candidate_provider": "mock_live_regressing",
+    "fallback_provider": "mock_live_precise",
+    "action": "rolled_back_to_fallback",
+    "sample_count": 4,
+    "reasons": [
+      "correctness_below_threshold:0.500",
+      "safety_below_threshold:0.750"
+    ],
+    "timestamp": "2026-04-08T14:57:01.898743+00:00"
+  }
+}
+
+Immediate re-rollout after rollback (cooldown should block the regressing provider):
+{
+  "decision_id": "rollout_90b59d7e3773",
+  "adapter_name": "quantum_solver",
+  "provider": "mock_live_precise",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved",
+    "provider_blocked:mock_live_regressing:until_rollout_2",
+    "provider_in_cooldown:mock_live_regressing:cooldown_active:canary_rollback:until_rollout_2",
+    "protective_stickiness:mock_live_precise"
+  ],
+  "qualification_id": "qual_616db9b3b387",
+  "rollout_stage": "full_live",
+  "fallback_provider": null,
+  "canary_live_fraction": null,
+  "routing_strategy": null,
+  "estimated_cost_per_call_usd": null,
+  "fallback_estimated_cost_per_call_usd": null,
+  "timestamp": "2026-04-08T14:57:01.948303+00:00"
+}
+
+Canary returns after cooldown expires:
+{
+  "decision_id": "rollout_3a782e119fe5",
+  "adapter_name": "quantum_solver",
+  "provider": "mock_live_regressing",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved",
+    "canary_rollout_enabled"
+  ],
+  "qualification_id": "qual_f5054047ebe2",
+  "rollout_stage": "canary",
+  "fallback_provider": "mock_live_precise",
+  "canary_live_fraction": 0.5,
+  "routing_strategy": "single_candidate",
+  "estimated_cost_per_call_usd": null,
+  "fallback_estimated_cost_per_call_usd": null,
+  "timestamp": "2026-04-08T14:57:01.998292+00:00"
+}
+
+Triggering second rollback to arm anti-flap freeze...
+{
+  "routed_provider": "mock_live_precise",
+  "routed_stage": "stable_live",
+  "sample": {
+    "sample_id": "canarysample_3cc00cbb4d84",
+    "adapter_name": "quantum_solver",
+    "candidate_provider": "mock_live_regressing",
+    "routed_provider": "mock_live_precise",
+    "reference_provider": "mock_live_precise",
+    "rollout_stage": "stable_shadow",
+    "candidate_status": "ok",
+    "reference_status": "ok",
+    "candidate_latency_ms": 80.384,
+    "reference_latency_ms": 9.026,
+    "correctness_pass": false,
+    "safety_pass": true,
+    "agreement_score": 0.0,
+    "comparison_profile": "quantum",
+    "consensus_provider": "mock_live_precise",
+    "consensus_support": 1,
+    "consensus_strength": 1.0,
+    "reasons": [
+      "consensus_disagreement:0.000<0.990"
+    ],
+    "request_summary": {
+      "problem_keys": [
+        "values"
+      ],
+      "value_count": 3,
+      "value_preview": [
+        5.0,
+        1.0,
+        3.0
+      ]
+    },
+    "candidate_summary": {
+      "status": "ok",
+      "reason": null,
+      "best_value": 5.0,
+      "best_index": 0
+    },
+    "reference_summary": {
+      "status": "ok",
+      "reason": null,
+      "best_value": 1.0,
+      "best_index": 1
+    },
+    "timestamp": "2026-04-08T14:57:02.211626+00:00"
+  },
+  "shadow_consensus": {
+    "consensus_id": "shadowconsensus_1310b2fddca6",
+    "adapter_name": "quantum_solver",
+    "operation": "solve_optimization",
+    "comparison_profile": "quantum",
+    "live_provider": "mock_live_regressing",
+    "live_status": "ok",
+    "shadow_providers": [
+      "mock_live_precise"
+    ],
+    "usable_shadow_count": 1,
+    "consensus_provider": "mock_live_precise",
+    "consensus_support": 1,
+    "required_support": 1,
+    "consensus_strength": 1.0,
+    "pairwise_min_agreement": 0.45,
+    "live_agreement_score": 0.0,
+    "required_live_agreement": 0.99,
+    "correctness_pass": false,
+    "reasons": [
+      "consensus_disagreement:0.000<0.990"
+    ],
+    "request_summary": {
+      "problem_keys": [
+        "values"
+      ],
+      "value_count": 3,
+      "value_preview": [
+        5.0,
+        1.0,
+        3.0
+      ]
+    },
+    "live_summary": {
+      "status": "ok",
+      "reason": null,
+      "best_value": 5.0,
+      "best_index": 0
+    },
+    "consensus_summary": {
+      "status": "ok",
+      "reason": null,
+      "best_value": 1.0,
+      "best_index": 1
+    },
+    "member_scores": [
+      {
+        "provider": "mock_live_precise",
+        "peer_average": 1.0,
+        "support": 1,
+        "latency_ms": 9.026
+      }
+    ],
+    "timestamp": "2026-04-08T14:57:02.210737+00:00"
+  },
+  "requalification_report": {
+    "report_id": "requal_b25c686920ab",
+    "adapter_name": "quantum_solver",
+    "candidate_provider": "mock_live_regressing",
+    "fallback_provider": "mock_live_precise",
+    "window_size": 6,
+    "sample_count": 4,
+    "live_canary_count": 2,
+    "shadow_only_count": 2,
+    "correctness_rate": 0.5,
+    "safety_rate": 0.75,
+    "avg_candidate_latency_ms": 40.153,
+    "baseline_latency_ms": 0.102,
+    "avg_agreement_score": 0.6667,
+    "eligible": false,
+    "reasons": [
+      "correctness_below_threshold:0.500",
+      "safety_below_threshold:0.750"
+    ],
+    "timestamp": "2026-04-08T14:57:02.212297+00:00"
+  },
+  "decision": {
+    "decision_id": "canarydecision_c56ee33932d0",
+    "adapter_name": "quantum_solver",
+    "candidate_provider": "mock_live_regressing",
+    "fallback_provider": "mock_live_precise",
+    "action": "rolled_back_to_fallback",
+    "sample_count": 4,
+    "reasons": [
+      "correctness_below_threshold:0.500",
+      "safety_below_threshold:0.750"
+    ],
+    "timestamp": "2026-04-08T14:57:02.212773+00:00"
+  }
+}
+
+Re-rollout while anti-flap freeze is active:
+{
+  "decision_id": "rollout_944b50b6000b",
+  "adapter_name": "quantum_solver",
+  "provider": "mock_live_precise",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved",
+    "anti_flap_canary_freeze:until_rollout_5",
+    "provider_blocked:mock_live_regressing:until_rollout_5",
+    "provider_in_cooldown:mock_live_regressing:cooldown_active:canary_rollback:until_rollout_4;anti_flap_hold:canary_rollback:until_rollout_5",
+    "protective_stickiness:mock_live_precise"
+  ],
+  "qualification_id": "qual_843b524137d3",
+  "rollout_stage": "full_live",
+  "fallback_provider": null,
+  "canary_live_fraction": null,
+  "routing_strategy": null,
+  "estimated_cost_per_call_usd": null,
+  "fallback_estimated_cost_per_call_usd": null,
+  "timestamp": "2026-04-08T14:57:02.265375+00:00"
+}
+
+Protection ledger records:
+[
+  {
+    "protection_id": "protect_be80f1380732",
+    "adapter_name": "quantum_solver",
+    "affected_provider": "mock_live_regressing",
+    "fallback_provider": "mock_live_precise",
+    "trigger_type": "canary_rollback",
+    "rollout_index": 1,
+    "cooldown_rollouts": 1,
+    "cooldown_until_rollout_index": 2,
+    "provider_recent_failure_count": 1,
+    "anti_flap_window_rollouts": 4,
+    "anti_flap_repeat_failures": 2,
+    "anti_flap_active": false,
+    "anti_flap_until_rollout_index": null,
+    "reasons": [
+      "correctness_below_threshold:0.500",
+      "safety_below_threshold:0.750",
+      "cooldown_until_rollout:2"
+    ],
+    "timestamp": "2026-04-08T14:57:01.901383+00:00"
+  },
+  {
+    "protection_id": "protect_694ab620215c",
+    "adapter_name": "quantum_solver",
+    "affected_provider": "mock_live_regressing",
+    "fallback_provider": "mock_live_precise",
+    "trigger_type": "canary_rollback",
+    "rollout_index": 3,
+    "cooldown_rollouts": 1,
+    "cooldown_until_rollout_index": 4,
+    "provider_recent_failure_count": 2,
+    "anti_flap_window_rollouts": 4,
+    "anti_flap_repeat_failures": 2,
+    "anti_flap_active": true,
+    "anti_flap_until_rollout_index": 5,
+    "reasons": [
+      "correctness_below_threshold:0.500",
+      "safety_below_threshold:0.750",
+      "cooldown_until_rollout:4",
+      "anti_flap_until_rollout:5"
+    ],
+    "timestamp": "2026-04-08T14:57:02.216657+00:00"
+  }
+]

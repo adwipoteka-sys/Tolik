@@ -1,0 +1,22 @@
+{
+  "call_id": "adaptercall_d979658bcde6",
+  "adapter_name": "cloud_llm",
+  "capability": "cloud_llm",
+  "operation": "generate",
+  "mode": "disabled",
+  "provider": null,
+  "status": "deferred",
+  "request_summary": {
+    "prompt_preview": "Alpha. Beta. Gamma.",
+    "length": 19,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "summarize"
+  },
+  "response_summary": null,
+  "reason": "cloud_llm_disabled",
+  "timestamp": "2026-04-05T11:16:41.009422+00:00"
+}

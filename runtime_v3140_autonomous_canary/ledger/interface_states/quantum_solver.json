@@ -1,0 +1,11 @@
+{
+  "adapter_name": "quantum_solver",
+  "capability": "quantum_solver",
+  "mode": "live",
+  "provider": "mock_live_regressing",
+  "live_ready": true,
+  "deferred_count": 0,
+  "call_count": 0,
+  "reason": null,
+  "updated_at": "2026-04-05T11:12:09.510053+00:00"
+}

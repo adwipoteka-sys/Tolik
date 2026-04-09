@@ -1,0 +1,51 @@
+{
+  "cloud_llm": {
+    "candidates": [
+      {
+        "mode": "live",
+        "provider": "mock_live_regressing",
+        "policy": {
+          "allow_live_calls": true,
+          "blocked_terms": [
+            "malware"
+          ]
+        },
+        "estimated_cost_per_call_usd": 0.1
+      },
+      {
+        "mode": "live",
+        "provider": "mock_live_safe",
+        "policy": {
+          "allow_live_calls": true,
+          "blocked_terms": [
+            "malware"
+          ]
+        },
+        "estimated_cost_per_call_usd": 0.03
+      },
+      {
+        "mode": "live",
+        "provider": "mock_live_safe_alt",
+        "policy": {
+          "allow_live_calls": true,
+          "blocked_terms": [
+            "malware"
+          ]
+        },
+        "estimated_cost_per_call_usd": 0.005
+      }
+    ]
+  },
+  "quantum_solver": {
+    "candidates": [
+      {
+        "mode": "live",
+        "provider": "mock_live_precise",
+        "policy": {
+          "allow_live_calls": true
+        },
+        "estimated_cost_per_call_usd": 0.04
+      }
+    ]
+  }
+}

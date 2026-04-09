@@ -1,0 +1,5 @@
+After v3.141, 1 major interface step remains in the current Stage 5 queue:
+
+1. Charter-aware rollback cooldown + anti-flap protection.
+
+No new macro-stages are added beyond Stage 5.

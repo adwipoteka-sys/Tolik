@@ -1,0 +1,16 @@
+Tolik v3.138 provider rollout + drift summary
+
+Qualification path:
+- cloud_llm: mock_live_fast remains a clean qualified provider for baseline rollout demos
+- quantum_solver: mock_live_precise remains a clean qualified provider for baseline rollout demos
+
+Post-promotion drift path:
+- cloud_llm: mock_live_regressing passes qualification, is promoted, then regresses after promotion and is demoted to mock_live_safe
+- quantum_solver: mock_live_regressing passes qualification, is promoted, then regresses after promotion and is demoted to mock_live_precise
+
+Persisted audit artifacts:
+- interface_qualifications/
+- interface_rollout_decisions/
+- interface_shadow_runs/
+- interface_drift_reports/
+- interface_demotion_decisions/

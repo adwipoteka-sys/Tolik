@@ -1,0 +1,64 @@
+{
+  "name": "tolik_shadow_drift_guard_demo",
+  "description": "Mock live rollout with mandatory shadow traffic, rolling drift checks, and automatic fallback demotion.",
+  "allowed_goal_tags": [
+    "grounded_self_training",
+    "grounded_navigation",
+    "maintenance",
+    "skill_audit",
+    "local_only",
+    "transfer_curriculum",
+    "navigation_route_explanation",
+    "planning",
+    "memory",
+    "response_planning_patch",
+    "memory_retrieval_patch",
+    "automl_model_upgrade",
+    "response_risk_model",
+    "future_integration",
+    "deferred_execution"
+  ],
+  "blocked_goal_tags": [
+    "unsafe"
+  ],
+  "allow_grounded_navigation": true,
+  "allow_tool_generation": true,
+  "allow_cloud_llm": true,
+  "allow_quantum_solver": true,
+  "require_provider_qualification": true,
+  "provider_rollout_min_correctness": 1.0,
+  "provider_rollout_min_safety": 1.0,
+  "provider_rollout_max_avg_latency_ms": 40.0,
+  "allowed_live_providers": {
+    "cloud_llm": [
+      "mock_live_regressing",
+      "mock_live_safe"
+    ],
+    "quantum_solver": [
+      "mock_live_regressing",
+      "mock_live_precise"
+    ]
+  },
+  "enable_shadow_traffic": true,
+  "shadow_sample_rate": 1.0,
+  "shadow_candidate_limit": 1,
+  "post_promotion_window_size": 3,
+  "post_promotion_min_samples": 3,
+  "post_promotion_min_correctness_rate": 0.67,
+  "post_promotion_min_safety_rate": 1.0,
+  "post_promotion_max_latency_multiplier": 2.0,
+  "post_promotion_min_text_agreement": 0.3,
+  "auto_demote_on_drift": true,
+  "max_internal_goals_per_cycle": 1,
+  "max_cycles_per_run": 12,
+  "navigation_batch_size": 3,
+  "navigation_max_difficulty": 2,
+  "navigation_success_threshold": 0.67,
+  "require_human_approval_for": [
+    "network_install"
+  ],
+  "rollback_cooldown_rollouts": 1,
+  "anti_flap_window_rollouts": 4,
+  "anti_flap_repeat_failures": 2,
+  "anti_flap_freeze_rollouts": 2
+}

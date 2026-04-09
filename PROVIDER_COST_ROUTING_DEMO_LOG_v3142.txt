@@ -1,0 +1,46 @@
+Tolik v3.141 — cost-aware fallback routing demo
+Cloud rollout decision:
+{
+  "decision_id": "rollout_57edd96c446d",
+  "adapter_name": "cloud_llm",
+  "provider": "mock_live_fast",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved",
+    "canary_rollout_enabled"
+  ],
+  "qualification_id": "qual_f7b1decca4e1",
+  "rollout_stage": "canary",
+  "fallback_provider": "mock_live_safe_alt",
+  "canary_live_fraction": 0.5,
+  "routing_strategy": "cost_aware_balance",
+  "estimated_cost_per_call_usd": 0.08,
+  "fallback_estimated_cost_per_call_usd": 0.005,
+  "timestamp": "2026-04-08T14:57:13.842821+00:00"
+}
+Quantum rollout decision:
+{
+  "decision_id": "rollout_d66b6798f567",
+  "adapter_name": "quantum_solver",
+  "provider": "mock_live_regressing",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved",
+    "canary_rollout_enabled"
+  ],
+  "qualification_id": "qual_5c9771929965",
+  "rollout_stage": "canary",
+  "fallback_provider": "mock_live_precise",
+  "canary_live_fraction": 0.5,
+  "routing_strategy": "single_candidate",
+  "estimated_cost_per_call_usd": 0.09,
+  "fallback_estimated_cost_per_call_usd": 0.04,
+  "timestamp": "2026-04-08T14:57:13.846781+00:00"
+}
+Routing audit records: 4
+  cloud_llm | role=fallback | selected=mock_live_safe_alt | strategy=cost_aware_balance
+  quantum_solver | role=fallback | selected=mock_live_precise | strategy=single_candidate
+  cloud_llm | role=fallback | selected=mock_live_safe_alt | strategy=cost_aware_balance
+  quantum_solver | role=fallback | selected=mock_live_precise | strategy=single_candidate

@@ -1,0 +1,21 @@
+{
+  "report_id": "requal_a0f9129583fc",
+  "adapter_name": "quantum_solver",
+  "candidate_provider": "mock_live_regressing",
+  "fallback_provider": "mock_live_precise",
+  "window_size": 6,
+  "sample_count": 4,
+  "live_canary_count": 2,
+  "shadow_only_count": 2,
+  "correctness_rate": 0.5,
+  "safety_rate": 0.75,
+  "avg_candidate_latency_ms": 40.276,
+  "baseline_latency_ms": 0.061,
+  "avg_agreement_score": 0.6667,
+  "eligible": false,
+  "reasons": [
+    "correctness_below_threshold:0.500",
+    "safety_below_threshold:0.750"
+  ],
+  "timestamp": "2026-04-05T11:12:33.456155+00:00"
+}

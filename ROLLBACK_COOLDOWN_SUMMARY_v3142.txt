@@ -1,0 +1,19 @@
+v3.142
+
+Что внедрено:
+- rollout protection layer
+- rollback cooldown после canary rollback
+- rollback cooldown после drift demotion
+- anti-flap freeze после повторных сбоев провайдера
+- sticky-safe current provider во время protection window
+- ledger trail: interface_rollout_protections/
+
+Что подтверждено:
+- pytest -q -> 123 passed
+- provider_anti_flap_demo.py -> passed
+- provider_canary_demo.py -> passed
+- provider_shadow_consensus_demo.py -> passed
+- provider_shadow_demo.py -> passed
+- provider_rollout_demo.py -> passed
+- provider_cost_routing_demo.py -> passed
+- autonomous_agi.py canary path -> passed

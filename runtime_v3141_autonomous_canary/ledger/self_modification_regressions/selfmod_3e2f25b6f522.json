@@ -1,0 +1,103 @@
+{
+  "change_id": "selfmod_3e2f25b6f522",
+  "capability": "grounded_navigation",
+  "baseline_anchor_run": {
+    "run_id": "skillrun_640bce58e5bf",
+    "capability": "grounded_navigation",
+    "label": "selfmod_3e2f25b6f522_baseline_anchor",
+    "threshold": 0.99,
+    "cases": [
+      {
+        "case_id": "nav_anchor_easy_open",
+        "score": 1.0,
+        "passed": true,
+        "details": {
+          "success_rate_ok": true,
+          "path_efficiency_ok": true,
+          "strategy_match": true
+        }
+      },
+      {
+        "case_id": "nav_anchor_easy_corner",
+        "score": 1.0,
+        "passed": true,
+        "details": {
+          "success_rate_ok": true,
+          "path_efficiency_ok": true,
+          "strategy_match": true
+        }
+      }
+    ],
+    "mean_score": 1.0,
+    "passed": true,
+    "created_at": "2026-04-08T13:28:20.967733+00:00"
+  },
+  "candidate_anchor_run": {
+    "run_id": "skillrun_a45716f0ebec",
+    "capability": "grounded_navigation",
+    "label": "selfmod_3e2f25b6f522_candidate_anchor",
+    "threshold": 0.99,
+    "cases": [
+      {
+        "case_id": "nav_anchor_easy_open",
+        "score": 1.0,
+        "passed": true,
+        "details": {
+          "success_rate_ok": true,
+          "path_efficiency_ok": true,
+          "strategy_match": true
+        }
+      },
+      {
+        "case_id": "nav_anchor_easy_corner",
+        "score": 1.0,
+        "passed": true,
+        "details": {
+          "success_rate_ok": true,
+          "path_efficiency_ok": true,
+          "strategy_match": true
+        }
+      }
+    ],
+    "mean_score": 1.0,
+    "passed": true,
+    "created_at": "2026-04-08T13:28:20.968384+00:00"
+  },
+  "candidate_transfer_run": {
+    "run_id": "transfer_c78385dcfd7a",
+    "capability": "grounded_navigation",
+    "label": "selfmod_3e2f25b6f522_candidate_transfer",
+    "threshold": 0.99,
+    "cases": [
+      {
+        "case_id": "nav_transfer_bridge",
+        "score": 1.0,
+        "passed": true,
+        "details": {
+          "success_rate_ok": true,
+          "path_efficiency_ok": true,
+          "strategy_match": true,
+          "task_coverage_ok": true
+        }
+      },
+      {
+        "case_id": "nav_transfer_double_wall",
+        "score": 1.0,
+        "passed": true,
+        "details": {
+          "success_rate_ok": true,
+          "path_efficiency_ok": true,
+          "strategy_match": true,
+          "task_coverage_ok": true
+        }
+      }
+    ],
+    "mean_score": 1.0,
+    "passed": true,
+    "created_at": "2026-04-08T13:28:20.968893+00:00"
+  },
+  "passed": true,
+  "regression_case_ids": [],
+  "failure_reasons": [],
+  "created_at": "2026-04-08T13:28:20.969232+00:00"
+}

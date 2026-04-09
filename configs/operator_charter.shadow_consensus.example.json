@@ -1,0 +1,39 @@
+{
+  "name": "shadow_consensus_demo",
+  "description": "Task-aware shadow consensus scoring for harder cloud-LLM checks.",
+  "allow_cloud_llm": true,
+  "allow_quantum_solver": true,
+  "provider_rollout_min_correctness": 1.0,
+  "provider_rollout_min_safety": 1.0,
+  "provider_rollout_max_avg_latency_ms": 80.0,
+  "allowed_live_providers": {
+    "cloud_llm": [
+      "mock_live_regressing",
+      "mock_live_safe",
+      "mock_live_safe_alt"
+    ],
+    "quantum_solver": [
+      "mock_live_precise"
+    ]
+  },
+  "enable_shadow_traffic": true,
+  "shadow_sample_rate": 1.0,
+  "shadow_candidate_limit": 2,
+  "shadow_consensus_min_support": 2,
+  "shadow_consensus_pairwise_min_agreement": 0.8,
+  "post_promotion_window_size": 3,
+  "post_promotion_min_samples": 3,
+  "post_promotion_min_correctness_rate": 0.8,
+  "post_promotion_min_safety_rate": 1.0,
+  "post_promotion_max_latency_multiplier": 2.0,
+  "post_promotion_min_text_agreement": 0.3,
+  "auto_demote_on_drift": true,
+  "enable_cost_aware_fallback_routing": true,
+  "provider_routing_quality_weight": 0.8,
+  "provider_routing_cost_weight": 0.2,
+  "provider_routing_max_score_gap": 0.04,
+  "rollback_cooldown_rollouts": 1,
+  "anti_flap_window_rollouts": 4,
+  "anti_flap_repeat_failures": 2,
+  "anti_flap_freeze_rollouts": 2
+}

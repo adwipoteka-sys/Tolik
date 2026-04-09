@@ -1,0 +1,347 @@
+{
+  "change_id": "selfmod_3e2f25b6f522",
+  "goal_id": "selfmodgoal_65c153d9445f",
+  "title": "Promote graph-search grounded navigation",
+  "target_component": "agency",
+  "capability": "grounded_navigation",
+  "parameter_name": "grounded_navigation_strategy",
+  "baseline_value": "greedy",
+  "candidate_value": "graph_search",
+  "rationale": "Observed 1 failed episode(s) with strategy='greedy' on detour-heavy grounded navigation and 1 supporting postmortem(s) pointing to a planning/strategy failure. Candidate 'graph_search' is predicted to reduce detour regressions while preserving anchor behavior.",
+  "anchor_cases": [
+    {
+      "case_id": "nav_anchor_easy_open",
+      "payload": {
+        "tasks": [
+          {
+            "task_id": "nav_easy_open",
+            "width": 3,
+            "height": 3,
+            "start": [
+              0,
+              0
+            ],
+            "goal": [
+              2,
+              2
+            ],
+            "obstacles": [],
+            "max_steps": 8,
+            "difficulty": 1,
+            "description": "Open 3x3 grid."
+          }
+        ],
+        "success_threshold": 1.0
+      },
+      "expected": {
+        "min_success_rate": 1.0,
+        "max_mean_path_ratio": 1.0
+      },
+      "description": "Easy open grounded task must remain solved."
+    },
+    {
+      "case_id": "nav_anchor_easy_corner",
+      "payload": {
+        "tasks": [
+          {
+            "task_id": "nav_easy_corner",
+            "width": 4,
+            "height": 4,
+            "start": [
+              0,
+              3
+            ],
+            "goal": [
+              3,
+              0
+            ],
+            "obstacles": [
+              [
+                1,
+                1
+              ]
+            ],
+            "max_steps": 10,
+            "difficulty": 1,
+            "description": "Mostly open grid with one obstacle."
+          }
+        ],
+        "success_threshold": 1.0
+      },
+      "expected": {
+        "min_success_rate": 1.0,
+        "max_mean_path_ratio": 1.0
+      },
+      "description": "Easy corner grounded task must remain solved."
+    }
+  ],
+  "transfer_cases": [
+    {
+      "case_id": "nav_transfer_bridge",
+      "payload": {
+        "tasks": [
+          {
+            "task_id": "nav_transfer_bridge",
+            "width": 6,
+            "height": 5,
+            "start": [
+              0,
+              0
+            ],
+            "goal": [
+              5,
+              0
+            ],
+            "obstacles": [
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                1,
+                3
+              ]
+            ],
+            "max_steps": 20,
+            "difficulty": 3,
+            "description": "Held-out bridge task: a long detour away from the goal is required."
+          }
+        ],
+        "success_threshold": 1.0
+      },
+      "expected": {
+        "min_success_rate": 1.0,
+        "max_mean_path_ratio": 1.0,
+        "strategy": "graph_search",
+        "min_task_count": 1
+      },
+      "description": "Held-out bridge detour should generalize under graph search."
+    },
+    {
+      "case_id": "nav_transfer_double_wall",
+      "payload": {
+        "tasks": [
+          {
+            "task_id": "nav_transfer_double_wall",
+            "width": 7,
+            "height": 5,
+            "start": [
+              0,
+              4
+            ],
+            "goal": [
+              6,
+              4
+            ],
+            "obstacles": [
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                1,
+                3
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                3,
+                0
+              ],
+              [
+                3,
+                1
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                3,
+                3
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                5,
+                3
+              ],
+              [
+                5,
+                4
+              ]
+            ],
+            "max_steps": 30,
+            "difficulty": 3,
+            "description": "Held-out multi-detour task requiring repeated route reversals."
+          }
+        ],
+        "success_threshold": 1.0
+      },
+      "expected": {
+        "min_success_rate": 1.0,
+        "max_mean_path_ratio": 1.0,
+        "strategy": "graph_search",
+        "min_task_count": 1
+      },
+      "description": "Held-out multi-wall detour should generalize under graph search."
+    }
+  ],
+  "canary_cases": [
+    {
+      "case_id": "nav_detour_curriculum",
+      "payload": {
+        "tasks": [
+          {
+            "task_id": "nav_detour_wall",
+            "width": 4,
+            "height": 4,
+            "start": [
+              0,
+              0
+            ],
+            "goal": [
+              3,
+              0
+            ],
+            "obstacles": [
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "max_steps": 12,
+            "difficulty": 2,
+            "description": "Requires a temporary move away from goal."
+          },
+          {
+            "task_id": "nav_detour_channel",
+            "width": 5,
+            "height": 4,
+            "start": [
+              0,
+              0
+            ],
+            "goal": [
+              4,
+              0
+            ],
+            "obstacles": [
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                3,
+                1
+              ],
+              [
+                3,
+                2
+              ]
+            ],
+            "max_steps": 14,
+            "difficulty": 2,
+            "description": "Requires a corridor detour."
+          }
+        ],
+        "success_threshold": 1.0
+      },
+      "expected": {
+        "min_success_rate": 1.0,
+        "max_mean_path_ratio": 1.0,
+        "strategy": "graph_search"
+      },
+      "description": "Detour curriculum must pass in guarded canary."
+    },
+    {
+      "case_id": "nav_easy_regression_guard",
+      "payload": {
+        "tasks": [
+          {
+            "task_id": "nav_easy_open",
+            "width": 3,
+            "height": 3,
+            "start": [
+              0,
+              0
+            ],
+            "goal": [
+              2,
+              2
+            ],
+            "obstacles": [],
+            "max_steps": 8,
+            "difficulty": 1,
+            "description": "Open 3x3 grid."
+          },
+          {
+            "task_id": "nav_easy_corner",
+            "width": 4,
+            "height": 4,
+            "start": [
+              0,
+              3
+            ],
+            "goal": [
+              3,
+              0
+            ],
+            "obstacles": [
+              [
+                1,
+                1
+              ]
+            ],
+            "max_steps": 10,
+            "difficulty": 1,
+            "description": "Mostly open grid with one obstacle."
+          }
+        ],
+        "success_threshold": 1.0
+      },
+      "expected": {
+        "min_success_rate": 1.0,
+        "max_mean_path_ratio": 1.0,
+        "strategy": "graph_search"
+      },
+      "description": "Easy cases must stay stable in canary."
+    }
+  ],
+  "threshold": 0.99,
+  "allowed_regression_delta": 0.0,
+  "status": "finalized",
+  "created_at": "2026-04-08T13:28:20.964121+00:00"
+}

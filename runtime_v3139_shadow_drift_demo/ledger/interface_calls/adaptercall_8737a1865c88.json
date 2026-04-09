@@ -1,0 +1,22 @@
+{
+  "call_id": "adaptercall_8737a1865c88",
+  "adapter_name": "cloud_llm",
+  "capability": "cloud_llm",
+  "operation": "generate",
+  "mode": "live",
+  "provider": "mock_live_regressing",
+  "status": "rejected",
+  "request_summary": {
+    "prompt_preview": "Eta. Theta. Iota.",
+    "length": 17,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "summarize"
+  },
+  "response_summary": null,
+  "reason": "blocked_output_terms:['malware']",
+  "timestamp": "2026-04-05T10:08:03.748207+00:00"
+}

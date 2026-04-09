@@ -1,0 +1,22 @@
+Tolik v3.141 — cost-aware provider routing summary
+
+What changed:
+- added interfaces/provider_routing.py
+- added estimated_cost_per_call_usd to InterfaceRuntimeSpec
+- added charter knobs for fallback routing policy
+- rollout gate now chooses canary fallback via cost-aware routing
+- drift demotion now chooses fallback via the same routing logic
+- added ledger audit trail interface_provider_routing/
+- added provider_cost_routing_demo.py
+
+Confirmed behavior:
+- when two fallback providers are both safe and close in qualification score,
+  Tolik now prefers the cheaper one
+- when a cheaper provider is too far below the quality anchor,
+  Tolik keeps the stronger fallback
+- post-promotion drift rollback uses the same selector
+
+Representative validated outcome:
+- primary cloud provider: mock_live_fast
+- cheaper acceptable fallback chosen: mock_live_safe_alt
+- routing strategy: cost_aware_balance

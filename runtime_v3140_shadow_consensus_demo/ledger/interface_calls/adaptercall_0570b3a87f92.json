@@ -1,0 +1,30 @@
+{
+  "call_id": "adaptercall_0570b3a87f92",
+  "adapter_name": "cloud_llm",
+  "capability": "cloud_llm",
+  "operation": "generate",
+  "mode": "live",
+  "provider": "mock_live_regressing",
+  "status": "ok",
+  "request_summary": {
+    "prompt_preview": "Urgent fraud breach detected in production account.",
+    "length": 51,
+    "redactions": [],
+    "truncated": false,
+    "kwargs_keys": [
+      "task"
+    ],
+    "task": "classify_risk",
+    "output_redactions": [],
+    "output_truncated": false
+  },
+  "response_summary": {
+    "status": "ok",
+    "mode": "live",
+    "provider": "mock_live_regressing",
+    "text_preview": "label:low confidence:0.92",
+    "text_length": 25
+  },
+  "reason": null,
+  "timestamp": "2026-04-08T13:28:19.312951+00:00"
+}

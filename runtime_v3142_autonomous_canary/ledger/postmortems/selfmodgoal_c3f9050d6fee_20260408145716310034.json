@@ -1,0 +1,29 @@
+{
+  "goal_id": "selfmodgoal_c3f9050d6fee",
+  "success": true,
+  "expectation_gap": 0.0,
+  "model_error": 0.0,
+  "plan_error": 0.0,
+  "execution_error": 0.0,
+  "knowledge_gap": 0.0,
+  "regression_flag": false,
+  "drift_flag": false,
+  "root_causes": [
+    "successful_execution"
+  ],
+  "recommendations": [
+    "Consolidate the successful pattern for future replay."
+  ],
+  "derived_goals": [
+    {
+      "title": "Consolidate successful strategy",
+      "kind": "learning"
+    }
+  ],
+  "tags": [
+    "grounded_navigation_patch",
+    "grounded_navigation",
+    "maintenance",
+    "local_only"
+  ]
+}

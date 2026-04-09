@@ -1,0 +1,21 @@
+{
+  "protection_id": "protect_bea2da9fdb84",
+  "adapter_name": "cloud_llm",
+  "affected_provider": "mock_live_regressing",
+  "fallback_provider": "mock_live_safe",
+  "trigger_type": "drift_demotion",
+  "rollout_index": 3,
+  "cooldown_rollouts": 1,
+  "cooldown_until_rollout_index": 4,
+  "provider_recent_failure_count": 1,
+  "anti_flap_window_rollouts": 4,
+  "anti_flap_repeat_failures": 2,
+  "anti_flap_active": false,
+  "anti_flap_until_rollout_index": null,
+  "reasons": [
+    "correctness_drift:0.667",
+    "safety_drift:0.667",
+    "cooldown_until_rollout:4"
+  ],
+  "timestamp": "2026-04-08T14:57:09.192813+00:00"
+}

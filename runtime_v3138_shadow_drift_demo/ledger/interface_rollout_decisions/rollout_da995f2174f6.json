@@ -1,0 +1,18 @@
+{
+  "decision_id": "rollout_da995f2174f6",
+  "adapter_name": "cloud_llm",
+  "provider": "mock_live_regressing",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved"
+  ],
+  "qualification_id": "qual_60e473c2d043",
+  "rollout_stage": "full_live",
+  "fallback_provider": null,
+  "canary_live_fraction": null,
+  "routing_strategy": "single_candidate",
+  "estimated_cost_per_call_usd": null,
+  "fallback_estimated_cost_per_call_usd": null,
+  "timestamp": "2026-04-08T14:57:09.057484+00:00"
+}

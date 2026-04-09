@@ -1,0 +1,152 @@
+{
+  "episode_id": "episode_c5433cf32cf7",
+  "goal_id": "selfmodgoal_c3f9050d6fee",
+  "title": "Promote graph-search grounded navigation",
+  "source": "metacognition",
+  "kind": "maintenance",
+  "success": true,
+  "cycle": 2,
+  "capability": "grounded_navigation",
+  "pattern_key": "grounded_navigation|graph_search_patch",
+  "lesson": "When navigation requires a detour, upgrade from greedy moves to graph search.",
+  "tags": [
+    "grounded_navigation_patch",
+    "grounded_navigation",
+    "maintenance",
+    "local_only"
+  ],
+  "goal_payload": {
+    "goal_id": "selfmodgoal_c3f9050d6fee",
+    "title": "Promote graph-search grounded navigation",
+    "description": "Infer a safer internal navigation strategy from repeated detour failures.",
+    "source": "metacognition",
+    "kind": "maintenance",
+    "expected_gain": 0.78,
+    "novelty": 0.28,
+    "uncertainty_reduction": 0.66,
+    "strategic_fit": 0.95,
+    "risk_estimate": 0.07,
+    "priority": 0.8600000000000001,
+    "risk_budget": 0.15,
+    "resource_budget": {
+      "max_steps": 6,
+      "max_seconds": 20.0,
+      "max_tokens": null,
+      "max_tool_calls": 0,
+      "max_api_calls": 0
+    },
+    "success_criteria": [
+      {
+        "metric": "status",
+        "comparator": "==",
+        "target": "finalized",
+        "window": 1
+      }
+    ],
+    "parent_goal_id": null,
+    "required_capabilities": [
+      "classical_planning",
+      "grounded_navigation"
+    ],
+    "tags": [
+      "grounded_navigation_patch",
+      "grounded_navigation",
+      "maintenance",
+      "local_only"
+    ],
+    "evidence": {
+      "self_modification": true,
+      "self_mod_proposal_id": "selfmodprop_d2d582388cc3",
+      "self_mod_signature": "grounded_navigation|graph_search_patch",
+      "target_capability": "grounded_navigation",
+      "self_mod_target_component": "agency",
+      "self_mod_parameter_name": "grounded_navigation_strategy",
+      "target_strategy": "graph_search",
+      "proposal_confidence": 0.8,
+      "self_mod_change_id": "selfmod_8d0e49327dbf",
+      "outcome": {
+        "success": true
+      }
+    },
+    "status": "done",
+    "created_at": "2026-04-08T14:57:16.278648+00:00",
+    "updated_at": "2026-04-08T14:57:16.308142+00:00",
+    "expires_at": null
+  },
+  "trace": [
+    {
+      "step": "stage_self_mod_candidate",
+      "result": {
+        "step": "stage_self_mod_candidate",
+        "success": true,
+        "proposal_id": "selfmodprop_d2d582388cc3",
+        "change_id": "selfmod_8d0e49327dbf",
+        "baseline_value": "greedy",
+        "candidate_value": "graph_search",
+        "message": "staged safe self-modification candidate for grounded_navigation_strategy"
+      }
+    },
+    {
+      "step": "run_self_mod_regression_gate",
+      "result": {
+        "step": "run_self_mod_regression_gate",
+        "success": true,
+        "proposal_id": "selfmodprop_d2d582388cc3",
+        "change_id": "selfmod_8d0e49327dbf",
+        "regression_case_ids": [],
+        "failure_reasons": [],
+        "message": "self-mod regression gate passed for grounded_navigation_strategy"
+      }
+    },
+    {
+      "step": "promote_self_mod_canary",
+      "result": {
+        "step": "promote_self_mod_canary",
+        "success": true,
+        "proposal_id": "selfmodprop_d2d582388cc3",
+        "change_id": "selfmod_8d0e49327dbf",
+        "message": "self-mod canary promoted for grounded_navigation_strategy"
+      }
+    },
+    {
+      "step": "evaluate_self_mod_canary",
+      "result": {
+        "step": "evaluate_self_mod_canary",
+        "success": true,
+        "proposal_id": "selfmodprop_d2d582388cc3",
+        "change_id": "selfmod_8d0e49327dbf",
+        "rolled_back": false,
+        "active_value_after": "graph_search",
+        "message": "self-mod canary passed for grounded_navigation_strategy"
+      }
+    },
+    {
+      "step": "finalize_self_mod",
+      "result": {
+        "step": "finalize_self_mod",
+        "success": true,
+        "proposal_id": "selfmodprop_d2d582388cc3",
+        "change_id": "selfmod_8d0e49327dbf",
+        "stable_value": "graph_search",
+        "message": "safe self-modification finalized: grounded_navigation_strategy=graph_search"
+      }
+    },
+    {
+      "step": "record_learning",
+      "result": {
+        "step": "record_learning",
+        "success": true,
+        "memory_written": true
+      }
+    }
+  ],
+  "outcome": {
+    "success": true
+  },
+  "workspace_excerpt": {
+    "navigation_strategy": "graph_search",
+    "response_planning_policy": "single_pass",
+    "retrieval_policy": "exact_only"
+  },
+  "created_at": "2026-04-08T14:57:16.309077+00:00"
+}

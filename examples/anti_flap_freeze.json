@@ -1,0 +1,19 @@
+{
+  "scenario": "anti_flap_freeze",
+  "provider": "candidate_provider",
+  "fallback_provider": "safe_fallback",
+  "metrics": {
+    "correctness": 0.83,
+    "safety": 0.94,
+    "latency_ms": 860
+  },
+  "thresholds": {
+    "correctness_min": 0.88,
+    "safety_min": 0.95,
+    "latency_max_ms": 1200
+  },
+  "anti_flap_window_rollouts": 4,
+  "anti_flap_repeat_failures": 2,
+  "recent_failures": 2,
+  "expected_decision": "freeze_canary"
+}

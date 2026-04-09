@@ -1,0 +1,12 @@
+{
+  "demotion_id": "demote_8d1c1ae058c5",
+  "adapter_name": "cloud_llm",
+  "previous_provider": "mock_live_regressing",
+  "fallback_provider": "mock_live_safe",
+  "action": "fallback_promoted",
+  "reasons": [
+    "correctness_drift:0.667",
+    "safety_drift:0.667"
+  ],
+  "timestamp": "2026-04-08T14:57:09.191360+00:00"
+}

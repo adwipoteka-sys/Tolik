@@ -1,0 +1,22 @@
+Tolik v3.140 — shadow consensus scoring summary
+
+Что внедрено:
+- task-aware consensus scoring for harder LLM tasks
+- multi-shadow consensus support
+- consensus-aware post-promotion monitoring
+- consensus-aware canary re-qualification
+- persistent shadow consensus audit trail
+- harder classification/json mock scenarios
+
+Что подтверждено:
+- 116 tests passed
+- regressing cloud_llm classifier is caught by consensus
+- safe fallback is auto-promoted after drift
+- canary flow remains compatible
+
+Ключевой runtime кейс:
+- two safe shadow providers agree on label=high
+- regressing live provider flips to label=low on call 3
+- live_agreement_score drops to 0.0
+- drift guard demotes the regressing provider
+- fallback mock_live_safe becomes primary

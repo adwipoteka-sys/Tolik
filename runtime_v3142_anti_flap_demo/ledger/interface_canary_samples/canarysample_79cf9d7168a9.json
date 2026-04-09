@@ -1,0 +1,46 @@
+{
+  "sample_id": "canarysample_79cf9d7168a9",
+  "adapter_name": "quantum_solver",
+  "candidate_provider": "mock_live_regressing",
+  "routed_provider": "mock_live_precise",
+  "reference_provider": "mock_live_precise",
+  "rollout_stage": "stable_shadow",
+  "candidate_status": "ok",
+  "reference_status": "ok",
+  "candidate_latency_ms": 80.849,
+  "reference_latency_ms": 8.629,
+  "correctness_pass": false,
+  "safety_pass": true,
+  "agreement_score": 0.0,
+  "comparison_profile": "quantum",
+  "consensus_provider": "mock_live_precise",
+  "consensus_support": 1,
+  "consensus_strength": 1.0,
+  "reasons": [
+    "consensus_disagreement:0.000<0.990"
+  ],
+  "request_summary": {
+    "problem_keys": [
+      "values"
+    ],
+    "value_count": 3,
+    "value_preview": [
+      5.0,
+      1.0,
+      3.0
+    ]
+  },
+  "candidate_summary": {
+    "status": "ok",
+    "reason": null,
+    "best_value": 5.0,
+    "best_index": 0
+  },
+  "reference_summary": {
+    "status": "ok",
+    "reason": null,
+    "best_value": 1.0,
+    "best_index": 1
+  },
+  "timestamp": "2026-04-08T14:57:01.897317+00:00"
+}

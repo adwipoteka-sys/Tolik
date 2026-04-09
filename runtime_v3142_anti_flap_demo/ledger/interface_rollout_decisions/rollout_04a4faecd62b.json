@@ -1,0 +1,19 @@
+{
+  "decision_id": "rollout_04a4faecd62b",
+  "adapter_name": "quantum_solver",
+  "provider": "mock_live_regressing",
+  "decision": "promoted",
+  "mode": "live",
+  "reasons": [
+    "qualified_and_charter_approved",
+    "canary_rollout_enabled"
+  ],
+  "qualification_id": "qual_ccc3940858bc",
+  "rollout_stage": "canary",
+  "fallback_provider": "mock_live_precise",
+  "canary_live_fraction": 0.5,
+  "routing_strategy": "single_candidate",
+  "estimated_cost_per_call_usd": null,
+  "fallback_estimated_cost_per_call_usd": null,
+  "timestamp": "2026-04-08T14:57:01.682419+00:00"
+}

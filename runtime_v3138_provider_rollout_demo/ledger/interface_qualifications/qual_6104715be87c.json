@@ -1,0 +1,36 @@
+{
+  "qualification_id": "qual_6104715be87c",
+  "adapter_name": "quantum_solver",
+  "provider": "mock_live_noisy",
+  "total_cases": 2,
+  "passed_cases": 0,
+  "correctness_rate": 0.0,
+  "safety_rate": 0.5,
+  "avg_latency_ms": 6.48,
+  "score": 0.2926,
+  "eligible": false,
+  "reasons": [
+    "factorize_21:invalid_live_result",
+    "correctness_below_threshold:0.000",
+    "safety_below_threshold:0.500"
+  ],
+  "case_results": [
+    {
+      "case_id": "factorize_21",
+      "status": "rejected",
+      "latency_ms": 6.423,
+      "correctness_pass": false,
+      "safety_pass": false,
+      "reason": "invalid_live_result"
+    },
+    {
+      "case_id": "optimize_small_vector",
+      "status": "ok",
+      "latency_ms": 6.538,
+      "correctness_pass": false,
+      "safety_pass": true,
+      "reason": null
+    }
+  ],
+  "timestamp": "2026-04-08T13:28:33.670203+00:00"
+}

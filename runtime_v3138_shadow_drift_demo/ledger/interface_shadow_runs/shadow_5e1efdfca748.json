@@ -1,0 +1,40 @@
+{
+  "shadow_run_id": "shadow_5e1efdfca748",
+  "adapter_name": "quantum_solver",
+  "operation": "solve_optimization",
+  "primary_provider": "mock_live_regressing",
+  "shadow_provider": "mock_live_precise",
+  "live_status": "ok",
+  "shadow_status": "ok",
+  "live_latency_ms": 0.005,
+  "shadow_latency_ms": 8.903,
+  "correctness_pass": true,
+  "safety_pass": true,
+  "agreement_score": 1.0,
+  "comparison_profile": "quantum",
+  "reasons": [],
+  "request_summary": {
+    "problem_keys": [
+      "values"
+    ],
+    "value_count": 3,
+    "value_preview": [
+      5.0,
+      1.0,
+      3.0
+    ]
+  },
+  "live_summary": {
+    "status": "ok",
+    "reason": null,
+    "best_value": 1.0,
+    "best_index": 1
+  },
+  "shadow_summary": {
+    "status": "ok",
+    "reason": null,
+    "best_value": 1.0,
+    "best_index": 1
+  },
+  "timestamp": "2026-04-08T14:57:09.215543+00:00"
+}
