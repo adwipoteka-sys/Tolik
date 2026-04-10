@@ -1,0 +1,1 @@
+Tolik reached persistent memory stage
