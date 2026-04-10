@@ -78,7 +78,7 @@ class TolikAGI:
 
 def main() -> None:
     agi = TolikAGI()
-    print("Tolik bootstrap AGI ready. Enter text. Type 'exit' to quit.")
+    print(f"Tolik ready. LLM provider: {agi.language.provider_name}. Type 'exit' to quit.")
 
     while True:
         user_text = input("you> ").strip()

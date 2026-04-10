@@ -1,2 +1,2 @@
-# Minimal bootstrap version uses only Python standard library.
-# Add optional integrations later: transformers, faiss-cpu, chromadb, networkx, qiskit, qiskit-ibm-runtime, openai, langchain.
+# Core bootstrap
+openai
