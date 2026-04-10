@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 from dataclasses import asdict, is_dataclass
+from pathlib import Path
 from typing import Any, Dict
 
 from agency.agency_module import AgencyModule
+from agency.tools import LocalToolbox
 from core.global_workspace import GlobalWorkspace
 from language.language_module import LanguageModule
 from memory.memory_module import MemoryModule
@@ -16,15 +18,20 @@ from reasoning.reasoning_module import ReasoningModule
 
 class TolikAGI:
     def __init__(self) -> None:
+        module_root = Path(__file__).resolve().parent
+        repo_root = module_root.parent.resolve()
+        runtime_dir = module_root / "data" / "runtime"
+
         self.workspace = GlobalWorkspace()
         self.perception = PerceptionModule()
-        self.memory = MemoryModule()
+        self.memory = MemoryModule(storage_dir=str(runtime_dir))
         self.memory.seed_defaults()
         self.reasoning = ReasoningModule()
         self.motivation = MotivationModule()
         self.planning = PlanningModule()
         self.language = LanguageModule()
-        self.agency = AgencyModule(language=self.language)
+        self.toolbox = LocalToolbox(str(repo_root))
+        self.agency = AgencyModule(language=self.language, toolbox=self.toolbox)
         self.metacognition = MetacognitionModule()
 
     @staticmethod
@@ -57,6 +64,8 @@ class TolikAGI:
         meta = self.metacognition.review(perception, reasoning, action_result)
         self.workspace.publish("metacognition", meta, source="metacognition")
         self.motivation.ingest_metacognition(meta.get("recommendations", []))
+
+        self.memory.save()
 
         return {
             "goal": goal,

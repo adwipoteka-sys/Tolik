@@ -24,24 +24,43 @@ class PerceptionModule:
         suggested_goal: Optional[str] = None
         entities: Dict[str, str] = {}
 
+        imperative_prefixes = (
+            "remember ",
+            "recall ",
+            "list files",
+            "read ",
+            "write note ",
+            "store ",
+            "show ",
+            "open ",
+            "запомни ",
+            "вспомни ",
+            "покажи ",
+            "прочитай ",
+            "сделай ",
+            "создай ",
+            "реализуй ",
+            "напиши ",
+        )
+
         if not cleaned:
             intent = "empty"
             suggested_goal = "stabilize_context"
         elif lowered.startswith("goal:"):
             intent = "explicit_goal"
             suggested_goal = cleaned.split(":", 1)[1].strip() or "clarify_goal"
+        elif lowered.startswith(imperative_prefixes):
+            intent = "task_request"
+            suggested_goal = f"execute_request: {cleaned}"
         elif "?" in cleaned:
             intent = "question"
             suggested_goal = f"answer_user: {cleaned}"
-        elif any(word in lowered for word in ["сделай", "создай", "реализуй", "напиши"]):
-            intent = "task_request"
-            suggested_goal = f"execute_request: {cleaned}"
         else:
             suggested_goal = f"analyze_input: {cleaned}"
 
         if "agi" in lowered:
             entities["domain"] = "agi"
-        if "толик" in lowered:
+        if "толик" in lowered or "tolik" in lowered:
             entities["project"] = "толик"
 
         return PerceptionResult(
