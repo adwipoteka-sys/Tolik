@@ -8,8 +8,6 @@ from memory.memory_module import MemoryModule
 
 
 class AgencyModule:
-    """Executes plan steps using internal tools only."""
-
     def __init__(self, language: LanguageModule, toolbox: LocalToolbox) -> None:
         self.language = language
         self.toolbox = toolbox
@@ -121,25 +119,13 @@ class AgencyModule:
             "notes": notes,
         }
 
-    def execute_navigation_plan(self, plan: List[str], env) -> Dict[str, Any]:
-        executed: List[str] = []
-        total_reward = 0.0
-        done = False
-        obs = env.observe()
-
-        for action in plan:
-            step = env.step(action)
-            executed.append(action)
-            total_reward += step.reward
-            obs = step.observation
-            if step.done:
-                done = True
-                break
-
+    def execute_env_action(self, action: str, env) -> Dict[str, Any]:
+        step = env.step(action)
         return {
-            "status": "ok" if done else "partial",
-            "done": done,
-            "reward_total": total_reward,
-            "executed_actions": executed,
-            "final_observation": obs,
+            "status": "ok" if step.done else "partial",
+            "done": step.done,
+            "reward": step.reward,
+            "observation": step.observation,
+            "info": step.info,
+            "action": action,
         }

@@ -5,8 +5,6 @@ from typing import Any, Dict, List, Tuple
 
 
 class PlanningModule:
-    """Turns goals into executable steps."""
-
     def make_plan(self, goal: str, reasoning: Dict[str, Any]) -> List[Dict[str, str]]:
         steps: List[Dict[str, str]] = []
         inferred = reasoning.get("inferred_subgoals", [])
@@ -88,17 +86,19 @@ class PlanningModule:
 
         return steps
 
-    def make_navigation_plan(self, env_state: Dict[str, object]) -> List[str]:
-        grid = env_state["grid"]
-        start = tuple(env_state["agent"])
-        target = tuple(env_state["target"])
+    def _bfs_actions(
+        self,
+        start: Tuple[int, int],
+        targets: List[Tuple[int, int]],
+        is_free,
+    ) -> List[str]:
+        if not targets:
+            return []
 
-        rows = len(grid)
-        cols = len(grid[0])
-
-        def free(i: int, j: int) -> bool:
-            return 0 <= i < rows and 0 <= j < cols and grid[i][j] != "#"
-
+        target_set = set(targets)
+        q = deque([start])
+        prev: Dict[Tuple[int, int], Tuple[Tuple[int, int], str]] = {}
+        seen = {start}
         deltas: List[Tuple[str, Tuple[int, int]]] = [
             ("up", (-1, 0)),
             ("down", (1, 0)),
@@ -106,29 +106,39 @@ class PlanningModule:
             ("right", (0, 1)),
         ]
 
-        q = deque([start])
-        prev: Dict[Tuple[int, int], Tuple[Tuple[int, int], str]] = {}
-        seen = {start}
-
+        found = None
         while q:
             cur = q.popleft()
-            if cur == target:
+            if cur in target_set:
+                found = cur
                 break
             for action, (di, dj) in deltas:
                 nxt = (cur[0] + di, cur[1] + dj)
-                if nxt not in seen and free(nxt[0], nxt[1]):
+                if nxt not in seen and is_free(nxt):
                     seen.add(nxt)
                     prev[nxt] = (cur, action)
                     q.append(nxt)
 
-        if target not in seen:
+        if found is None:
             return []
 
-        actions: List[str] = []
-        node = target
+        acts: List[str] = []
+        node = found
         while node != start:
             parent, act = prev[node]
-            actions.append(act)
+            acts.append(act)
             node = parent
-        actions.reverse()
-        return actions
+        acts.reverse()
+        return acts
+
+    def make_partial_navigation_plan(self, map_memory, agent_pos: Tuple[int, int]) -> List[str]:
+        def is_free_known(pos: Tuple[int, int]) -> bool:
+            return map_memory.is_free_known(pos)
+
+        if map_memory.target is not None:
+            path = self._bfs_actions(agent_pos, [map_memory.target], is_free_known)
+            if path:
+                return path
+
+        frontiers = map_memory.frontier_positions()
+        return self._bfs_actions(agent_pos, frontiers, is_free_known)

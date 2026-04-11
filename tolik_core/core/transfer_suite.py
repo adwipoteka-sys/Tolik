@@ -50,10 +50,10 @@ class TransferSuite:
     def list_tasks(self) -> List[Dict[str, object]]:
         return [asdict(t) for t in self.tasks]
 
-    def run_all(self, agi) -> List[Dict[str, object]]:
+    def run_all_with(self, runner) -> List[Dict[str, object]]:
         results: List[Dict[str, object]] = []
         for task in self.tasks:
-            out = agi.run_env_episode(task.layout)
+            out = runner(task.layout)
             ok = bool(out["done"])
 
             task.runs += 1

@@ -14,8 +14,6 @@ class PerceptionResult:
 
 
 class PerceptionModule:
-    """Converts raw user input into a structured internal representation."""
-
     def process_input(self, user_text: str) -> PerceptionResult:
         cleaned = " ".join(user_text.strip().split())
         lowered = cleaned.lower()
@@ -76,4 +74,11 @@ class PerceptionModule:
             "intent": "env_state",
             "summary": f"layout={env_state.get('layout')} agent={env_state.get('agent')} target={env_state.get('target')} distance={env_state.get('distance_l1')}",
             "env_state": env_state,
+        }
+
+    def process_local_state(self, env_local: Dict[str, object]) -> Dict[str, object]:
+        return {
+            "intent": "env_local_state",
+            "summary": f"layout={env_local.get('layout')} agent={env_local.get('agent')} patch={env_local.get('patch')}",
+            "env_local": env_local,
         }

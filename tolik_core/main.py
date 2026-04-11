@@ -8,6 +8,7 @@ from agency.agency_module import AgencyModule
 from agency.tools import LocalToolbox
 from core.global_workspace import GlobalWorkspace
 from core.goal_ledger import GoalLedger
+from core.map_memory import MapMemory
 from core.skill_arena import SkillArena
 from core.transfer_suite import TransferSuite
 from language.language_module import LanguageModule
@@ -44,6 +45,8 @@ class TolikAGI:
         self.transfer_suite.seed_defaults()
 
         self.env = GridWorld()
+        self.map_memory = MapMemory()
+        self.map_memory.reset(self.env.layout_name, len(self.env.grid), len(self.env.grid[0]))
 
     @staticmethod
     def _to_dict(obj: Any) -> Dict[str, Any]:
@@ -89,67 +92,92 @@ class TolikAGI:
     def run_goal(self, goal_text: str) -> Dict[str, Any]:
         return self.run_cycle(f"goal: {goal_text}")
 
-    def run_env_episode(self, layout: str | None = None) -> Dict[str, Any]:
+    def reset_pomdp(self, layout: str) -> None:
+        self.env.reset(layout)
+        self.map_memory.reset(layout, len(self.env.grid), len(self.env.grid[0]))
+
+        fact = self.memory.recall_fact(f"pomdp_model::{layout}")
+        if isinstance(fact, dict):
+            self.map_memory.load_from_fact(fact)
+
+    def run_partial_env_episode(self, layout: str | None = None, max_steps: int = 80) -> Dict[str, Any]:
         if layout:
-            obs = self.env.reset(layout)
-        else:
-            obs = self.env.observe()
+            self.reset_pomdp(layout)
 
-        perception = self.perception.process_state(obs)
-        self.workspace.publish("env_perception", perception, source="perception")
-        self.memory.remember_event({"type": "env_perception", "data": perception})
+        executed_actions: List[str] = []
+        reward_total = 0.0
+        done = False
 
-        stored = self.memory.recall_fact(f"env_policy::{self.env.layout_name}")
-        if isinstance(stored, str) and stored.strip():
-            plan = stored.split()
-            plan_source = "memory"
-        else:
-            plan = self.planning.make_navigation_plan(obs)
-            plan_source = "planner"
+        for _ in range(max_steps):
+            local_obs = self.env.observe_local(radius=1)
+            perception = self.perception.process_local_state(local_obs)
+            self.workspace.publish("env_local_perception", perception, source="perception")
+            self.memory.remember_event({"type": "env_local_perception", "data": perception})
 
-        reasoning = {
-            "goal": "reach_target",
-            "confidence": 0.8 if plan else 0.2,
-            "warnings": [] if plan else ["no_path_found"],
-            "inferred_subgoals": [],
-        }
-        self.workspace.publish("env_plan", {"source": plan_source, "actions": plan}, source="planning")
+            self.map_memory.update_from_local(local_obs)
+            self.memory.store_fact(f"pomdp_model::{self.env.layout_name}", self.map_memory.to_fact())
 
-        result = self.agency.execute_navigation_plan(plan, self.env)
-        self.workspace.publish("env_action_result", result, source="agency")
-        self.memory.remember_event({"type": "env_action_result", "data": result})
+            plan = self.planning.make_partial_navigation_plan(self.map_memory, tuple(local_obs["agent"]))
+            reasoning = {
+                "goal": f"explore_or_reach::{self.env.layout_name}",
+                "confidence": 0.75 if plan else 0.2,
+                "warnings": [] if plan else ["no_known_plan"],
+                "inferred_subgoals": [],
+            }
 
-        if result["done"]:
-            self.memory.store_fact(f"env_policy::{self.env.layout_name}", " ".join(result["executed_actions"]))
+            if not plan:
+                answer = f"Частично наблюдаемое планирование остановилось: нет доступного плана в layout={self.env.layout_name}."
+                meta = {"cycle_ok": False, "recommendations": [f"improve_world_model::{self.env.layout_name}"], "confidence": 0.2}
+                return {
+                    "goal": f"pomdp_goal: reach_target@{self.env.layout_name}",
+                    "reasoning": reasoning,
+                    "plan": [],
+                    "answer": answer,
+                    "meta": meta,
+                    "done": False,
+                    "executed_actions": executed_actions,
+                    "reward_total": reward_total,
+                    "render": self.map_memory.render_known(self.env.agent),
+                }
+
+            action = plan[0]
+            step_result = self.agency.execute_env_action(action, self.env)
+            executed_actions.append(action)
+            reward_total += step_result["reward"]
+            self.memory.remember_event({"type": "env_step", "data": step_result})
+
+            if step_result["done"]:
+                done = True
+                self.map_memory.update_from_local(self.env.observe_local(radius=1))
+                self.memory.store_fact(f"pomdp_model::{self.env.layout_name}", self.map_memory.to_fact())
+                self.memory.store_fact(f"pomdp_policy::{self.env.layout_name}", " ".join(executed_actions))
+                break
+
+        if done:
             answer = (
-                f"Эпизод успешно завершён в layout={self.env.layout_name}. "
-                f"Шагов: {len(result['executed_actions'])}. "
-                f"Траектория сохранена в память."
+                f"POMDP-эпизод успешно завершён в layout={self.env.layout_name}. "
+                f"Шагов: {len(executed_actions)}. "
+                f"Внутренняя карта и траектория сохранены."
             )
+            meta = {"cycle_ok": True, "recommendations": [], "confidence": 0.8}
         else:
             answer = (
-                f"Эпизод не завершён в layout={self.env.layout_name}. "
-                f"Шагов: {len(result['executed_actions'])}. "
-                f"Нужен пересмотр плана."
+                f"POMDP-эпизод не завершён в layout={self.env.layout_name}. "
+                f"Шагов: {len(executed_actions)}. "
+                f"Нужна доработка world model."
             )
-
-        meta = {
-            "cycle_ok": result["done"],
-            "recommendations": [] if result["done"] else [f"improve_navigation::{self.env.layout_name}"],
-            "confidence": reasoning["confidence"],
-        }
-        self.workspace.publish("env_metacognition", meta, source="metacognition")
+            meta = {"cycle_ok": False, "recommendations": [f"improve_world_model::{self.env.layout_name}"], "confidence": 0.35}
 
         return {
-            "goal": f"env_goal: reach_target@{self.env.layout_name}",
-            "reasoning": reasoning,
-            "plan": [{"action": "env_move", "input": a} for a in plan],
+            "goal": f"pomdp_goal: reach_target@{self.env.layout_name}",
+            "reasoning": {"goal": "partial_navigation", "confidence": meta["confidence"], "warnings": [], "inferred_subgoals": []},
+            "plan": [{"action": "env_move", "input": a} for a in executed_actions],
             "answer": answer,
             "meta": meta,
-            "done": result["done"],
-            "executed_actions": result["executed_actions"],
-            "reward_total": result["reward_total"],
-            "render": self.env.render(),
+            "done": done,
+            "executed_actions": executed_actions,
+            "reward_total": reward_total,
+            "render": self.map_memory.render_known(self.env.agent),
         }
 
 
@@ -188,7 +216,7 @@ def print_transfer_results(results: List[Dict[str, object]]) -> None:
 def main() -> None:
     agi = TolikAGI()
     print(f"Tolik executive ready. LLM provider: {agi.language.provider_name}")
-    print("Commands: /goal <text>, /goals, /run_next, /arena_add name|prompt|required1,required2, /arena_list, /arena_run, /arena_repair, /self_improve [n], /sim_reset <layout>, /sim_show, /sim_run [layout], /transfer_list, /transfer_run, /status, exit")
+    print("Commands: /goal <text>, /goals, /run_next, /arena_add name|prompt|required1,required2, /arena_list, /arena_run, /arena_repair, /self_improve [n], /pomdp_reset <layout>, /pomdp_show, /pomdp_run [layout], /pomdp_transfer, /transfer_list, /status, exit")
 
     while True:
         user_text = input("you> ").strip()
@@ -286,25 +314,30 @@ def main() -> None:
                 print_result(result)
             continue
 
-        if user_text.startswith("/sim_reset "):
-            layout = user_text[len("/sim_reset ") :].strip()
-            agi.env.reset(layout)
-            print(agi.env.render())
+        if user_text.startswith("/pomdp_reset "):
+            layout = user_text[len("/pomdp_reset ") :].strip()
+            agi.reset_pomdp(layout)
+            print(agi.map_memory.render_known(agi.env.agent))
             print()
             continue
 
-        if user_text == "/sim_show":
-            print(agi.env.render())
+        if user_text == "/pomdp_show":
+            print(agi.map_memory.render_known(agi.env.agent))
             print()
             continue
 
-        if user_text.startswith("/sim_run"):
+        if user_text.startswith("/pomdp_run"):
             parts = user_text.split()
             layout = parts[1] if len(parts) > 1 else None
-            result = agi.run_env_episode(layout)
+            result = agi.run_partial_env_episode(layout)
             print_result(result)
             print(result["render"])
             print()
+            continue
+
+        if user_text == "/pomdp_transfer":
+            results = agi.transfer_suite.run_all_with(lambda layout: agi.run_partial_env_episode(layout))
+            print_transfer_results(results)
             continue
 
         if user_text == "/transfer_list":
@@ -313,17 +346,14 @@ def main() -> None:
             print()
             continue
 
-        if user_text == "/transfer_run":
-            results = agi.transfer_suite.run_all(agi)
-            print_transfer_results(results)
-            continue
-
         if user_text == "/status":
             print("Provider:", agi.language.provider_name)
             print("Goals:", agi.goal_ledger.stats())
             print("Arena:", agi.skill_arena.summary())
             print("Transfer:", agi.transfer_suite.summary())
             print("Current layout:", agi.env.layout_name)
+            print("Known map:")
+            print(agi.map_memory.render_known(agi.env.agent))
             print()
             continue
 

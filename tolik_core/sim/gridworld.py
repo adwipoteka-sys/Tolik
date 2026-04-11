@@ -11,7 +11,6 @@ ACTIONS = {
     "right": (0, 1),
 }
 
-
 DEFAULT_LAYOUTS = {
     "easy": [
         "#####",
@@ -86,6 +85,33 @@ class GridWorld:
             "agent": self.agent,
             "target": self.target,
             "distance_l1": abs(self.agent[0] - self.target[0]) + abs(self.agent[1] - self.target[1]),
+        }
+
+    def observe_local(self, radius: int = 1) -> Dict[str, object]:
+        ai, aj = self.agent
+        rows = len(self.grid)
+        cols = len(self.grid[0])
+
+        patch: List[str] = []
+        for i in range(ai - radius, ai + radius + 1):
+            row_chars: List[str] = []
+            for j in range(aj - radius, aj + radius + 1):
+                if not (0 <= i < rows and 0 <= j < cols):
+                    row_chars.append("#")
+                elif (i, j) == self.target:
+                    row_chars.append("T")
+                elif (i, j) == self.agent:
+                    row_chars.append("A")
+                else:
+                    row_chars.append(self.grid[i][j])
+            patch.append("".join(row_chars))
+
+        return {
+            "layout": self.layout_name,
+            "agent": self.agent,
+            "patch": patch,
+            "top_left": (ai - radius, aj - radius),
+            "shape": (rows, cols),
         }
 
     def render(self) -> str:
