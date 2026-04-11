@@ -113,7 +113,7 @@ def print_arena_results(results: List[Dict[str, object]]) -> None:
 def main() -> None:
     agi = TolikAGI()
     print(f"Tolik executive ready. LLM provider: {agi.language.provider_name}")
-    print("Commands: /goal <text>, /goals, /run_next, /arena_add name|prompt|required1,required2, /arena_list, /arena_run, /status, exit")
+    print("Commands: /goal <text>, /goals, /run_next, /arena_add name|prompt|required1,required2, /arena_list, /arena_run, /arena_repair, /self_improve [n], /status, exit")
 
     while True:
         user_text = input("you> ").strip()
@@ -169,6 +169,46 @@ def main() -> None:
         if user_text == "/arena_run":
             results = agi.skill_arena.run_all(agi)
             print_arena_results(results)
+            continue
+
+        if user_text == "/arena_repair":
+            repair_goals = agi.skill_arena.propose_repair_goals()
+            if not repair_goals:
+                print("No repair goals proposed.\n")
+                continue
+            for goal_text in repair_goals:
+                rec = agi.goal_ledger.add_goal(goal_text, priority=80, source="metacognition")
+                print(f"Repair goal added: {rec['id']} :: {rec['text']}")
+            print()
+            continue
+
+        if user_text.startswith("/self_improve"):
+            parts = user_text.split()
+            steps = 1
+            if len(parts) > 1:
+                try:
+                    steps = max(1, int(parts[1]))
+                except ValueError:
+                    steps = 1
+
+            results = agi.skill_arena.run_all(agi)
+            print_arena_results(results)
+
+            repair_goals = agi.skill_arena.propose_repair_goals()
+            for goal_text in repair_goals:
+                agi.goal_ledger.add_goal(goal_text, priority=80, source="metacognition")
+
+            for _ in range(steps):
+                rec = agi.goal_ledger.start_next()
+                if rec is None:
+                    break
+                result = agi.run_goal(rec["text"])
+                ok = bool(result["meta"].get("cycle_ok", False))
+                if ok:
+                    agi.goal_ledger.mark_done(rec["id"], note=result["answer"])
+                else:
+                    agi.goal_ledger.mark_failed(rec["id"], note=result["answer"])
+                print_result(result)
             continue
 
         if user_text == "/status":

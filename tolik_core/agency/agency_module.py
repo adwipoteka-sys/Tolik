@@ -22,6 +22,32 @@ class AgencyModule:
                 return key.strip(), value.strip()
         return payload.strip(), "true"
 
+    @staticmethod
+    def _repair_facts(payload: str) -> Dict[str, str]:
+        p = payload.lower()
+
+        if "motivation" in p or "цели" in p or "мотивац" in p:
+            return {
+                "motivation": "модуль постановки внутренних целей и приоритизации мотивации",
+                "мотивация_объяснение": "Система ставит себе цели через модуль мотивации. Он формирует внутренние цели на основе внешних задач, пробелов знаний и сигналов метакогниции.",
+            }
+
+        if "planning" in p or "планиров" in p:
+            return {
+                "planning": "модуль построения последовательности действий",
+                "планирование_объяснение": "Планировщик разбивает цель на подзадачи, определяет порядок шагов и формирует последовательность действий для достижения цели.",
+            }
+
+        if "meta" in p or "метаког" in p or "метапозн" in p:
+            return {
+                "metacognition": "модуль самоанализа и мониторинга системы",
+                "метакогниция_объяснение": "Метакогниция отслеживает уверенность, ошибки, прогресс и формирует запросы на улучшение навыков и стратегий.",
+            }
+
+        return {
+            "repair_note": f"Repair executed for payload: {payload}",
+        }
+
     def execute_plan(
         self,
         plan: List[Dict[str, str]],
@@ -51,6 +77,12 @@ class AgencyModule:
             elif action == "recall_fact":
                 value = memory.recall_fact(payload)
                 notes.append(f"Recall {payload}: {value}")
+
+            elif action == "repair_skill_knowledge":
+                facts = self._repair_facts(payload)
+                for k, v in facts.items():
+                    memory.store_fact(k, v)
+                notes.append(f"Repair knowledge injected: {list(facts.keys())}")
 
             elif action == "list_files":
                 files = self.toolbox.list_files(payload or ".")

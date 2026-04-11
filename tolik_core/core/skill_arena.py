@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import uuid
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Dict, List
 
@@ -78,6 +78,15 @@ class SkillArena:
 
         self._save()
         return results
+
+    def propose_repair_goals(self) -> List[str]:
+        goals: List[str] = []
+        for task in self.tasks:
+            if task.runs > 0 and not task.last_ok:
+                goals.append(
+                    f"repair_skill: {task.name} | prompt: {task.prompt} | required: {', '.join(task.required)}"
+                )
+        return goals
 
     def summary(self) -> Dict[str, int]:
         return {

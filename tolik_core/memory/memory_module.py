@@ -8,7 +8,7 @@ from typing import Any, Deque, Dict, List, Optional, Set
 
 
 class MemoryModule:
-    """Persistent memory with local semantic fallback, no external API dependency."""
+    """Persistent memory with local semantic fallback and alias expansion."""
 
     def __init__(self, short_term_limit: int = 25, storage_dir: str = "data/runtime") -> None:
         self.short_term_limit = short_term_limit
@@ -43,6 +43,19 @@ class MemoryModule:
 
     def store_fact(self, key: str, value: Any) -> None:
         self.long_term[key] = value
+
+        alias_map = {
+            "motivation": "мотивация",
+            "planning": "планирование",
+            "metacognition": "метакогниция",
+            "reasoning": "рассуждение",
+            "memory": "память",
+        }
+
+        alias = alias_map.get(key)
+        if alias:
+            self.long_term[alias] = value
+
         self.save()
 
     def recall_fact(self, key: str) -> Optional[Any]:
@@ -71,7 +84,9 @@ class MemoryModule:
             "планиров": {"planning", "планирование", "планировщик", "план"},
             "планировщик": {"planning", "планирование", "планировщик", "план"},
             "мотивац": {"motivation", "мотивация", "цель", "цели", "внутренние_цели"},
+            "внутрен": {"motivation", "мотивация", "внутренние_цели", "цель", "цели"},
             "цел": {"motivation", "мотивация", "цель", "цели", "goal", "goals"},
+            "себе цел": {"motivation", "мотивация", "внутренние_цели", "цель", "цели"},
             "памят": {"memory", "память"},
             "рассужд": {"reasoning", "логика", "рассуждение"},
             "логик": {"reasoning", "логика", "рассуждение"},
@@ -108,7 +123,6 @@ class MemoryModule:
 
         hits: List[str] = []
 
-        # exact / substring
         q_norm = self._normalize_text(q)
         for key, value in self.long_term.items():
             text = f"{key}: {value}"
@@ -117,7 +131,6 @@ class MemoryModule:
             if len(hits) >= limit:
                 return hits[:limit]
 
-        # local semantic
         scored: List[tuple[float, str]] = []
         for key, value in self.long_term.items():
             text = f"{key}: {value}"

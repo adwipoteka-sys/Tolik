@@ -10,7 +10,13 @@ class PlanningModule:
         steps: List[Dict[str, str]] = []
         inferred = reasoning.get("inferred_subgoals", [])
 
-        if goal.startswith("answer_user:"):
+        if goal.startswith("repair_skill:"):
+            steps = [
+                {"action": "repair_skill_knowledge", "input": goal},
+                {"action": "compose_answer", "input": f"Repair applied: {goal}"},
+            ]
+
+        elif goal.startswith("answer_user:"):
             question = goal.split(":", 1)[1].strip()
             steps = [
                 {"action": "search_memory", "input": question},
