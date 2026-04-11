@@ -51,7 +51,6 @@ class LanguageModule:
 
         cleaned = [self._canonicalize(self._clean_hit(x)) for x in memory_hits]
         prompt_l = user_prompt.lower().replace("ё", "е")
-
         top = cleaned[0]
 
         if "метаког" in prompt_l or "метапозн" in prompt_l:
@@ -106,16 +105,8 @@ class LanguageModule:
         if self.provider is not None:
             try:
                 result = self.provider.complete(
-                    system_prompt=(
-                        "Ты языковой модуль AGI-системы 'Толик'. "
-                        "Отвечай по-русски, кратко, структурно и по делу."
-                    ),
-                    user_prompt=(
-                        f"Задача: {user_prompt}\n"
-                        f"Память: {memory_hits}\n"
-                        f"Рассуждение: {reasoning}\n"
-                        f"План: {plan}\n"
-                    ),
+                    system_prompt="Ты языковой модуль AGI-системы 'Толик'. Отвечай по-русски, кратко, структурно и по делу.",
+                    user_prompt=f"Задача: {user_prompt}\nПамять: {memory_hits}\nРассуждение: {reasoning}\nПлан: {plan}\n",
                 )
                 return result.text
             except Exception:

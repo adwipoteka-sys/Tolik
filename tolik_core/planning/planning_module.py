@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from collections import deque
+from typing import Any, Dict, List, Tuple
 
 
 class PlanningModule:
@@ -86,3 +87,48 @@ class PlanningModule:
             steps.append({"action": "note_subgoal", "input": subgoal})
 
         return steps
+
+    def make_navigation_plan(self, env_state: Dict[str, object]) -> List[str]:
+        grid = env_state["grid"]
+        start = tuple(env_state["agent"])
+        target = tuple(env_state["target"])
+
+        rows = len(grid)
+        cols = len(grid[0])
+
+        def free(i: int, j: int) -> bool:
+            return 0 <= i < rows and 0 <= j < cols and grid[i][j] != "#"
+
+        deltas: List[Tuple[str, Tuple[int, int]]] = [
+            ("up", (-1, 0)),
+            ("down", (1, 0)),
+            ("left", (0, -1)),
+            ("right", (0, 1)),
+        ]
+
+        q = deque([start])
+        prev: Dict[Tuple[int, int], Tuple[Tuple[int, int], str]] = {}
+        seen = {start}
+
+        while q:
+            cur = q.popleft()
+            if cur == target:
+                break
+            for action, (di, dj) in deltas:
+                nxt = (cur[0] + di, cur[1] + dj)
+                if nxt not in seen and free(nxt[0], nxt[1]):
+                    seen.add(nxt)
+                    prev[nxt] = (cur, action)
+                    q.append(nxt)
+
+        if target not in seen:
+            return []
+
+        actions: List[str] = []
+        node = target
+        while node != start:
+            parent, act = prev[node]
+            actions.append(act)
+            node = parent
+        actions.reverse()
+        return actions

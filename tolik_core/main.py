@@ -9,6 +9,7 @@ from agency.tools import LocalToolbox
 from core.global_workspace import GlobalWorkspace
 from core.goal_ledger import GoalLedger
 from core.skill_arena import SkillArena
+from core.transfer_suite import TransferSuite
 from language.language_module import LanguageModule
 from memory.memory_module import MemoryModule
 from metacognition.metacognition_module import MetacognitionModule
@@ -16,6 +17,7 @@ from motivation.motivation_module import MotivationModule
 from perception.perception_module import PerceptionModule
 from planning.planning_module import PlanningModule
 from reasoning.reasoning_module import ReasoningModule
+from sim.gridworld import GridWorld
 
 
 class TolikAGI:
@@ -38,6 +40,10 @@ class TolikAGI:
 
         self.goal_ledger = GoalLedger(storage_dir=str(runtime_dir))
         self.skill_arena = SkillArena(storage_dir=str(runtime_dir))
+        self.transfer_suite = TransferSuite(storage_dir=str(runtime_dir))
+        self.transfer_suite.seed_defaults()
+
+        self.env = GridWorld()
 
     @staticmethod
     def _to_dict(obj: Any) -> Dict[str, Any]:
@@ -83,6 +89,69 @@ class TolikAGI:
     def run_goal(self, goal_text: str) -> Dict[str, Any]:
         return self.run_cycle(f"goal: {goal_text}")
 
+    def run_env_episode(self, layout: str | None = None) -> Dict[str, Any]:
+        if layout:
+            obs = self.env.reset(layout)
+        else:
+            obs = self.env.observe()
+
+        perception = self.perception.process_state(obs)
+        self.workspace.publish("env_perception", perception, source="perception")
+        self.memory.remember_event({"type": "env_perception", "data": perception})
+
+        stored = self.memory.recall_fact(f"env_policy::{self.env.layout_name}")
+        if isinstance(stored, str) and stored.strip():
+            plan = stored.split()
+            plan_source = "memory"
+        else:
+            plan = self.planning.make_navigation_plan(obs)
+            plan_source = "planner"
+
+        reasoning = {
+            "goal": "reach_target",
+            "confidence": 0.8 if plan else 0.2,
+            "warnings": [] if plan else ["no_path_found"],
+            "inferred_subgoals": [],
+        }
+        self.workspace.publish("env_plan", {"source": plan_source, "actions": plan}, source="planning")
+
+        result = self.agency.execute_navigation_plan(plan, self.env)
+        self.workspace.publish("env_action_result", result, source="agency")
+        self.memory.remember_event({"type": "env_action_result", "data": result})
+
+        if result["done"]:
+            self.memory.store_fact(f"env_policy::{self.env.layout_name}", " ".join(result["executed_actions"]))
+            answer = (
+                f"Эпизод успешно завершён в layout={self.env.layout_name}. "
+                f"Шагов: {len(result['executed_actions'])}. "
+                f"Траектория сохранена в память."
+            )
+        else:
+            answer = (
+                f"Эпизод не завершён в layout={self.env.layout_name}. "
+                f"Шагов: {len(result['executed_actions'])}. "
+                f"Нужен пересмотр плана."
+            )
+
+        meta = {
+            "cycle_ok": result["done"],
+            "recommendations": [] if result["done"] else [f"improve_navigation::{self.env.layout_name}"],
+            "confidence": reasoning["confidence"],
+        }
+        self.workspace.publish("env_metacognition", meta, source="metacognition")
+
+        return {
+            "goal": f"env_goal: reach_target@{self.env.layout_name}",
+            "reasoning": reasoning,
+            "plan": [{"action": "env_move", "input": a} for a in plan],
+            "answer": answer,
+            "meta": meta,
+            "done": result["done"],
+            "executed_actions": result["executed_actions"],
+            "reward_total": result["reward_total"],
+            "render": self.env.render(),
+        }
+
 
 def print_result(result: Dict[str, Any]) -> None:
     print("\n[GOAL]", result["goal"])
@@ -110,10 +179,16 @@ def print_arena_results(results: List[Dict[str, object]]) -> None:
         print()
 
 
+def print_transfer_results(results: List[Dict[str, object]]) -> None:
+    for r in results:
+        print(f"[TRANSFER] {r['task']} layout={r['layout']} :: {'PASS' if r['ok'] else 'FAIL'} steps={r['steps']} reward={r['reward_total']}")
+    print()
+
+
 def main() -> None:
     agi = TolikAGI()
     print(f"Tolik executive ready. LLM provider: {agi.language.provider_name}")
-    print("Commands: /goal <text>, /goals, /run_next, /arena_add name|prompt|required1,required2, /arena_list, /arena_run, /arena_repair, /self_improve [n], /status, exit")
+    print("Commands: /goal <text>, /goals, /run_next, /arena_add name|prompt|required1,required2, /arena_list, /arena_run, /arena_repair, /self_improve [n], /sim_reset <layout>, /sim_show, /sim_run [layout], /transfer_list, /transfer_run, /status, exit")
 
     while True:
         user_text = input("you> ").strip()
@@ -211,10 +286,44 @@ def main() -> None:
                 print_result(result)
             continue
 
+        if user_text.startswith("/sim_reset "):
+            layout = user_text[len("/sim_reset ") :].strip()
+            agi.env.reset(layout)
+            print(agi.env.render())
+            print()
+            continue
+
+        if user_text == "/sim_show":
+            print(agi.env.render())
+            print()
+            continue
+
+        if user_text.startswith("/sim_run"):
+            parts = user_text.split()
+            layout = parts[1] if len(parts) > 1 else None
+            result = agi.run_env_episode(layout)
+            print_result(result)
+            print(result["render"])
+            print()
+            continue
+
+        if user_text == "/transfer_list":
+            for task in agi.transfer_suite.list_tasks():
+                print(f"- {task['name']} layout={task['layout']} runs={task['runs']} passes={task['passes']}")
+            print()
+            continue
+
+        if user_text == "/transfer_run":
+            results = agi.transfer_suite.run_all(agi)
+            print_transfer_results(results)
+            continue
+
         if user_text == "/status":
             print("Provider:", agi.language.provider_name)
             print("Goals:", agi.goal_ledger.stats())
             print("Arena:", agi.skill_arena.summary())
+            print("Transfer:", agi.transfer_suite.summary())
+            print("Current layout:", agi.env.layout_name)
             print()
             continue
 

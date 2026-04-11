@@ -120,3 +120,26 @@ class AgencyModule:
             "memory_hits": memory_hits,
             "notes": notes,
         }
+
+    def execute_navigation_plan(self, plan: List[str], env) -> Dict[str, Any]:
+        executed: List[str] = []
+        total_reward = 0.0
+        done = False
+        obs = env.observe()
+
+        for action in plan:
+            step = env.step(action)
+            executed.append(action)
+            total_reward += step.reward
+            obs = step.observation
+            if step.done:
+                done = True
+                break
+
+        return {
+            "status": "ok" if done else "partial",
+            "done": done,
+            "reward_total": total_reward,
+            "executed_actions": executed,
+            "final_observation": obs,
+        }

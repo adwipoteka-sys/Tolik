@@ -70,3 +70,10 @@ class PerceptionModule:
             entities=entities,
             suggested_goal=suggested_goal,
         )
+
+    def process_state(self, env_state: Dict[str, object]) -> Dict[str, object]:
+        return {
+            "intent": "env_state",
+            "summary": f"layout={env_state.get('layout')} agent={env_state.get('agent')} target={env_state.get('target')} distance={env_state.get('distance_l1')}",
+            "env_state": env_state,
+        }
