@@ -1,15 +1,14 @@
 from __future__ import annotations
 
 import json
-import math
-import os
+import re
 from collections import deque
 from pathlib import Path
-from typing import Any, Deque, Dict, List, Optional
+from typing import Any, Deque, Dict, List, Optional, Set
 
 
 class MemoryModule:
-    """Short-term + long-term memory with JSON persistence + semantic search."""
+    """Persistent memory with local semantic fallback, no external API dependency."""
 
     def __init__(self, short_term_limit: int = 25, storage_dir: str = "data/runtime") -> None:
         self.short_term_limit = short_term_limit
@@ -18,93 +17,25 @@ class MemoryModule:
 
         self.facts_path = self.storage_dir / "facts.json"
         self.events_path = self.storage_dir / "events.json"
-        self.semantic_path = self.storage_dir / "semantic_memory.json"
 
         self.short_term: Deque[Dict[str, Any]] = deque(maxlen=short_term_limit)
         self.long_term: Dict[str, Any] = {}
-        self.semantic_items: List[Dict[str, Any]] = []
-
-        self.embed_model = os.getenv("OPENAI_EMBED_MODEL", "text-embedding-3-small").strip()
-        self.api_key = os.getenv("OPENAI_API_KEY", "").strip()
-        self._client = None
-
-        if self.api_key:
-            try:
-                from openai import OpenAI
-                self._client = OpenAI(api_key=self.api_key)
-            except Exception:
-                self._client = None
 
         self._load()
-
-        if self._client and (not self.semantic_items or len(self.semantic_items) < len(self.long_term)):
-            self.reindex_all()
 
     def _load(self) -> None:
         if self.facts_path.exists():
             self.long_term = json.loads(self.facts_path.read_text(encoding="utf-8"))
-
         if self.events_path.exists():
             items = json.loads(self.events_path.read_text(encoding="utf-8"))
             self.short_term = deque(items[-self.short_term_limit :], maxlen=self.short_term_limit)
 
-        if self.semantic_path.exists():
-            self.semantic_items = json.loads(self.semantic_path.read_text(encoding="utf-8"))
-
-    def _write_json(self, path: Path, data: Any) -> None:
+    def _save_json(self, path: Path, data: Any) -> None:
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
     def save(self) -> None:
-        self._write_json(self.facts_path, self.long_term)
-        self._write_json(self.events_path, list(self.short_term))
-        self._write_json(self.semantic_path, self.semantic_items)
-
-    def _embed_text(self, text: str) -> Optional[List[float]]:
-        if not self._client or not text.strip():
-            return None
-        try:
-            response = self._client.embeddings.create(
-                model=self.embed_model,
-                input=text,
-                encoding_format="float",
-            )
-            return list(response.data[0].embedding)
-        except Exception:
-            return None
-
-    @staticmethod
-    def _cosine_similarity(a: List[float], b: List[float]) -> float:
-        if not a or not b or len(a) != len(b):
-            return -1.0
-
-        dot = sum(x * y for x, y in zip(a, b))
-        norm_a = math.sqrt(sum(x * x for x in a))
-        norm_b = math.sqrt(sum(y * y for y in b))
-
-        if norm_a == 0 or norm_b == 0:
-            return -1.0
-
-        return dot / (norm_a * norm_b)
-
-    def _upsert_semantic_item(self, item_id: str, text: str) -> None:
-        vector = self._embed_text(text)
-        if vector is None:
-            return
-
-        self.semantic_items = [item for item in self.semantic_items if item.get("id") != item_id]
-        self.semantic_items.append(
-            {
-                "id": item_id,
-                "text": text,
-                "vector": vector,
-            }
-        )
-
-    def reindex_all(self) -> None:
-        self.semantic_items = []
-        for key, value in self.long_term.items():
-            self._upsert_semantic_item(str(key), f"{key}: {value}")
-        self.save()
+        self._save_json(self.facts_path, self.long_term)
+        self._save_json(self.events_path, list(self.short_term))
 
     def remember_event(self, event: Dict[str, Any]) -> None:
         self.short_term.append(event)
@@ -112,41 +43,95 @@ class MemoryModule:
 
     def store_fact(self, key: str, value: Any) -> None:
         self.long_term[key] = value
-        self._upsert_semantic_item(str(key), f"{key}: {value}")
         self.save()
 
     def recall_fact(self, key: str) -> Optional[Any]:
         return self.long_term.get(key)
 
+    @staticmethod
+    def _normalize_text(text: str) -> str:
+        text = text.lower().replace("ё", "е")
+        text = re.sub(r"[^a-zA-Zа-яА-Я0-9_\s]+", " ", text)
+        text = re.sub(r"\s+", " ", text).strip()
+        return text
+
+    @classmethod
+    def _base_tokens(cls, text: str) -> Set[str]:
+        return {tok for tok in cls._normalize_text(text).split() if len(tok) >= 2}
+
+    @classmethod
+    def _expand_tokens(cls, text: str) -> Set[str]:
+        tokens = cls._base_tokens(text)
+        norm = cls._normalize_text(text)
+
+        alias_rules = {
+            "метаког": {"metacognition", "метакогниция", "метапознание", "самоанализ"},
+            "метапозн": {"metacognition", "метакогниция", "метапознание", "самоанализ"},
+            "самоанализ": {"metacognition", "метакогниция", "метапознание"},
+            "планиров": {"planning", "планирование", "планировщик", "план"},
+            "планировщик": {"planning", "планирование", "планировщик", "план"},
+            "мотивац": {"motivation", "мотивация", "цель", "цели", "внутренние_цели"},
+            "цел": {"motivation", "мотивация", "цель", "цели", "goal", "goals"},
+            "памят": {"memory", "память"},
+            "рассужд": {"reasoning", "логика", "рассуждение"},
+            "логик": {"reasoning", "логика", "рассуждение"},
+        }
+
+        for marker, expanded in alias_rules.items():
+            if marker in norm:
+                tokens.update(expanded)
+
+        if "metacognition" in tokens:
+            tokens.update({"метакогниция", "метапознание", "самоанализ"})
+        if "planning" in tokens:
+            tokens.update({"планирование", "планировщик", "план"})
+        if "motivation" in tokens:
+            tokens.update({"мотивация", "цель", "цели", "внутренние_цели"})
+
+        return tokens
+
+    @classmethod
+    def _local_similarity(cls, query: str, text: str) -> float:
+        q = cls._expand_tokens(query)
+        t = cls._expand_tokens(text)
+        if not q or not t:
+            return 0.0
+        overlap = len(q & t)
+        if overlap == 0:
+            return 0.0
+        return overlap / max(1, len(q))
+
     def search_facts(self, query: str, limit: int = 5) -> List[str]:
-        q = query.lower().strip()
+        q = query.strip()
+        if not q:
+            return [f"{k}: {v}" for k, v in list(self.long_term.items())[:limit]]
+
         hits: List[str] = []
 
-        # Exact / substring matches first
+        # exact / substring
+        q_norm = self._normalize_text(q)
         for key, value in self.long_term.items():
             text = f"{key}: {value}"
-            if not q or q in key.lower() or q in str(value).lower():
+            if q_norm in self._normalize_text(text):
                 hits.append(text)
             if len(hits) >= limit:
                 return hits[:limit]
 
-        # Semantic matches next
-        if self._client and self.semantic_items and q:
-            q_vec = self._embed_text(query)
-            if q_vec is not None:
-                scored: List[tuple[float, str]] = []
-                for item in self.semantic_items:
-                    score = self._cosine_similarity(q_vec, item["vector"])
-                    scored.append((score, item["text"]))
+        # local semantic
+        scored: List[tuple[float, str]] = []
+        for key, value in self.long_term.items():
+            text = f"{key}: {value}"
+            score = self._local_similarity(q, text)
+            if score > 0:
+                scored.append((score, text))
 
-                scored.sort(key=lambda x: x[0], reverse=True)
-
-                for score, text in scored[:limit]:
-                    candidate = f"{text} [semantic {score:.3f}]"
-                    if text not in hits:
-                        hits.append(candidate)
-                    if len(hits) >= limit:
-                        break
+        scored.sort(key=lambda x: x[0], reverse=True)
+        for score, text in scored[:limit]:
+            candidate = f"{text} [local-semantic {score:.3f}]"
+            if all(text not in existing for existing in hits):
+                hits.append(candidate)
+            if len(hits) >= limit:
+                break
 
         return hits[:limit]
 
@@ -174,9 +159,5 @@ class MemoryModule:
             if key not in self.long_term:
                 self.long_term[key] = value
                 changed = True
-
         if changed:
-            if self._client:
-                self.reindex_all()
-            else:
-                self.save()
+            self.save()

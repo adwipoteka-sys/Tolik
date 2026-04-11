@@ -27,43 +27,20 @@ class PlanningModule:
                     {"action": "store_fact", "input": payload},
                     {"action": "compose_answer", "input": f"Stored fact: {payload}"},
                 ]
-            elif request_lower.startswith("запомни "):
-                payload = request[len("запомни ") :].strip()
-                steps = [
-                    {"action": "store_fact", "input": payload},
-                    {"action": "compose_answer", "input": f"Stored fact: {payload}"},
-                ]
             elif request_lower.startswith("recall "):
                 key = request[len("recall ") :].strip()
                 steps = [
                     {"action": "recall_fact", "input": key},
                     {"action": "compose_answer", "input": f"Recall: {key}"},
                 ]
-            elif request_lower.startswith("вспомни "):
-                key = request[len("вспомни ") :].strip()
+            elif request_lower.startswith("list files"):
+                rel = request[len("list files") :].strip() or "."
                 steps = [
-                    {"action": "recall_fact", "input": key},
-                    {"action": "compose_answer", "input": f"Recall: {key}"},
-                ]
-            elif request_lower == "list files":
-                steps = [
-                    {"action": "list_files", "input": "."},
-                    {"action": "compose_answer", "input": "Files under repo root"},
-                ]
-            elif request_lower.startswith("list files "):
-                rel = request[len("list files ") :].strip()
-                steps = [
-                    {"action": "list_files", "input": rel or "."},
-                    {"action": "compose_answer", "input": f"Files under: {rel or '.'}"},
+                    {"action": "list_files", "input": rel},
+                    {"action": "compose_answer", "input": f"Files under: {rel}"},
                 ]
             elif request_lower.startswith("read "):
                 rel = request[len("read ") :].strip()
-                steps = [
-                    {"action": "read_file", "input": rel},
-                    {"action": "compose_answer", "input": f"Read file: {rel}"},
-                ]
-            elif request_lower.startswith("прочитай "):
-                rel = request[len("прочитай ") :].strip()
                 steps = [
                     {"action": "read_file", "input": rel},
                     {"action": "compose_answer", "input": f"Read file: {rel}"},
@@ -76,6 +53,7 @@ class PlanningModule:
                 ]
             else:
                 steps = [
+                    {"action": "search_memory", "input": request},
                     {"action": "decompose_task", "input": request},
                     {"action": "compose_answer", "input": f"Plan for task: {request}"},
                 ]
@@ -84,10 +62,19 @@ class PlanningModule:
             steps = [{"action": "compose_answer", "input": "Пустой ввод. Нужна цель или запрос."}]
 
         else:
-            steps = [
-                {"action": "reflect", "input": goal},
-                {"action": "compose_answer", "input": f"Internal analysis for: {goal}"},
-            ]
+            goal_lower = goal.lower()
+            if any(word in goal_lower for word in ["улучш", "исслед", "разработ", "постро", "спроект", "оптимиз"]):
+                steps = [
+                    {"action": "search_memory", "input": goal},
+                    {"action": "decompose_task", "input": goal},
+                    {"action": "write_note", "input": f"# Goal session\n\n{goal}\n"},
+                    {"action": "compose_answer", "input": f"Goal execution draft: {goal}"},
+                ]
+            else:
+                steps = [
+                    {"action": "reflect", "input": goal},
+                    {"action": "compose_answer", "input": f"Internal analysis for: {goal}"},
+                ]
 
         for subgoal in inferred:
             steps.append({"action": "note_subgoal", "input": subgoal})

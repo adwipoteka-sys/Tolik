@@ -1,16 +1,29 @@
 from __future__ import annotations
 
+import os
 from typing import Any, Dict, List
-
-from language.llm_provider import OpenAIResponsesProvider
 
 
 class LanguageModule:
-    """Language layer with OpenAI adapter + deterministic fallback."""
+    """LLM is optional; deterministic cognitive mode is default."""
 
     def __init__(self) -> None:
-        self.provider = OpenAIResponsesProvider()
-        self.provider_name = self.provider.provider_name
+        self.external_enabled = os.getenv("TOLIK_DISABLE_LLM", "1").lower() not in {"1", "true", "yes", "on"}
+        self.provider = None
+        self.provider_name = "disabled"
+
+        if self.external_enabled:
+            try:
+                from language.llm_provider import OpenAIResponsesProvider
+                self.provider = OpenAIResponsesProvider()
+                if self.provider.available():
+                    self.provider_name = self.provider.provider_name
+                else:
+                    self.provider = None
+                    self.provider_name = "disabled"
+            except Exception:
+                self.provider = None
+                self.provider_name = "disabled"
 
     @staticmethod
     def _fallback_answer(
@@ -19,8 +32,7 @@ class LanguageModule:
         reasoning: Dict[str, Any],
         plan: List[Dict[str, str]],
     ) -> str:
-        lines: List[str] = []
-        lines.append(f"Цель: {user_prompt}")
+        lines: List[str] = [f"Цель: {user_prompt}"]
 
         if memory_hits:
             lines.append("Память:")
@@ -37,40 +49,6 @@ class LanguageModule:
 
         return "\n".join(lines)
 
-    @staticmethod
-    def _system_prompt() -> str:
-        return (
-            "Ты языковой модуль AGI-системы 'Толик'. "
-            "Отвечай по-русски, кратко, структурно и по делу. "
-            "Учитывай память, текущую цель, предупреждения рассуждения и план. "
-            "Не выдумывай факты. Если уверенность низкая — прямо укажи это. "
-            "Если пользователь просил действие, сначала опиши результат или план выполнения."
-        )
-
-    @staticmethod
-    def _user_prompt(
-        user_prompt: str,
-        memory_hits: List[str],
-        reasoning: Dict[str, Any],
-        plan: List[Dict[str, str]],
-    ) -> str:
-        memory_block = "\n".join(f"- {item}" for item in memory_hits) if memory_hits else "- нет"
-        plan_block = "\n".join(
-            f"{idx}. {step['action']} -> {step['input']}"
-            for idx, step in enumerate(plan, start=1)
-        ) or "- нет"
-
-        return (
-            f"Текущая задача:\n{user_prompt}\n\n"
-            f"Память:\n{memory_block}\n\n"
-            f"Рассуждение:\n"
-            f"- confidence: {reasoning.get('confidence', 0.0)}\n"
-            f"- warnings: {reasoning.get('warnings', [])}\n"
-            f"- inferred_subgoals: {reasoning.get('inferred_subgoals', [])}\n\n"
-            f"План:\n{plan_block}\n\n"
-            f"Сформируй финальный ответ пользователю."
-        )
-
     def compose_answer(
         self,
         user_prompt: str,
@@ -78,26 +56,24 @@ class LanguageModule:
         reasoning: Dict[str, Any],
         plan: List[Dict[str, str]],
     ) -> str:
-        if self.provider.available():
+        if self.provider is not None:
             try:
                 result = self.provider.complete(
-                    system_prompt=self._system_prompt(),
-                    user_prompt=self._user_prompt(
-                        user_prompt=user_prompt,
-                        memory_hits=memory_hits,
-                        reasoning=reasoning,
-                        plan=plan,
+                    system_prompt=(
+                        "Ты языковой модуль AGI-системы 'Толик'. "
+                        "Отвечай по-русски, кратко, структурно и по делу."
+                    ),
+                    user_prompt=(
+                        f"Задача: {user_prompt}\n"
+                        f"Память: {memory_hits}\n"
+                        f"Рассуждение: {reasoning}\n"
+                        f"План: {plan}\n"
                     ),
                 )
                 return result.text
-            except Exception as exc:
-                fallback = self._fallback_answer(
-                    user_prompt=user_prompt,
-                    memory_hits=memory_hits,
-                    reasoning=reasoning,
-                    plan=plan,
-                )
-                return f"{fallback}\n\n[LLM fallback after error: {exc}]"
+            except Exception:
+                self.provider = None
+                self.provider_name = "disabled"
 
         return self._fallback_answer(
             user_prompt=user_prompt,
